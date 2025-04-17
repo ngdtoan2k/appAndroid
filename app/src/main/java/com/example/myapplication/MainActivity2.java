@@ -7,11 +7,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+
+import com.example.myapplication.fragments.KhoaHocFragment;
+import com.example.myapplication.fragments.ThongKeTabFragment;
+import com.example.myapplication.fragments.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -26,11 +28,12 @@ public class MainActivity2 extends AppCompatActivity {
 
         bottomNav = findViewById(R.id.bottomNav);
         fab = findViewById(R.id.fabAdd);
-        Button btnLogout = findViewById(R.id.btnLogout);
+
 
 
         // Mặc định mở fragment Khóa học
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new KhoaHocFragment()).commit();
+
 
         bottomNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -39,7 +42,10 @@ public class MainActivity2 extends AppCompatActivity {
                 if (item.getItemId() == R.id.menu_khoahoc) {
                     selectedFragment = new KhoaHocFragment();
                 } else if (item.getItemId() == R.id.menu_thongke) {
-                    selectedFragment = new ThongKeFragment();
+//                    selectedFragment = new ThongKeFragment();
+                    selectedFragment = new ThongKeTabFragment(); // <-- sửa tại đây
+                } else if (item.getItemId() == R.id.menu_user) {  // Mới thêm mục người dùng
+                    selectedFragment = new UserFragment();
                 }
 
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
@@ -64,19 +70,7 @@ public class MainActivity2 extends AppCompatActivity {
                 }
             }
         });
-        btnLogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SharedPreferences pref = getSharedPreferences("MyApp", MODE_PRIVATE);
-                SharedPreferences.Editor editor = pref.edit();
-                editor.remove("nguoiHocId");
-                editor.apply();
 
-                Intent intent = new Intent(MainActivity2.this, LoginActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
     }
 
 }

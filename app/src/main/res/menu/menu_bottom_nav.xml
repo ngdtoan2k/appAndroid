@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/menu_khoahoc"
@@ -8,4 +7,20 @@
         android:id="@+id/menu_thongke"
         android:title="Thống kê"
         android:icon="@android:drawable/ic_menu_info_details" />
+    <item
+        android:id="@+id/menu_user"
+    android:title="Người dùng"
+    android:icon="@android:drawable/ic_menu_myplaces" />
 </menu>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<menu xmlns:android="http://schemas.android.com/apk/res/android">-->
+<!--    <item-->
+<!--        android:id="@+id/menu_khoahoc"-->
+<!--        android:title="Khóa học"-->
+<!--        android:icon="@android:drawable/ic_menu_agenda" />-->
+<!--    <item-->
+<!--        android:id="@+id/menu_thongke"-->
+<!--        android:title="Thống kê"-->
+<!--        android:icon="@android:drawable/ic_menu_info_details" />-->
+<!--</menu>-->

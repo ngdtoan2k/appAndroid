@@ -3,12 +3,19 @@ package com.example.myapplication;
 
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
+
+import com.example.myapplication.model.GiangVien;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "KhoaHocDB.db";
-    public static final int DB_VERSION = 4;
+    public static final int DB_VERSION = 6;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -38,6 +45,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "ngayDangKy TEXT)";
         db.execSQL(createDangKy);
 
+        String createGiangVien = "CREATE TABLE GiangVien (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "tenGV TEXT, " +
+                "email TEXT, " +
+                "chuyenMon TEXT)";
+        db.execSQL(createGiangVien);
+
+// Dữ liệu mẫu
+        db.execSQL("INSERT INTO GiangVien (tenGV, email, chuyenMon) VALUES " +
+                "('Tran Van C', 'c@gmail.com', 'Android')," +
+                "('Nguyen Thi D', 'd@gmail.com', 'Java Web')");
+
         // Dữ liệu mẫu
         db.execSQL("INSERT INTO NguoiHoc (tenNH, email, password) VALUES " +
                 "('Nguyen Van A', 'a@gmail.com', '123')," +
@@ -52,6 +71,73 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS DangKy");
         db.execSQL("DROP TABLE IF EXISTS KhoaHoc");
         db.execSQL("DROP TABLE IF EXISTS NguoiHoc");
+        db.execSQL("DROP TABLE IF EXISTS GiangVien");
+
         onCreate(db);
     }
+    public List<GiangVien> getAllGiangVien() {
+        List<GiangVien> danhSach = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM GiangVien", null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idIndex = cursor.getColumnIndex("id");
+                int tenGVIndex = cursor.getColumnIndex("tenGV");
+                int emailIndex = cursor.getColumnIndex("email");
+                int chuyenMonIndex = cursor.getColumnIndex("chuyenMon");
+
+                // Check if any column index is -1 (which indicates the column doesn't exist)
+                if (idIndex != -1 && tenGVIndex != -1 && emailIndex != -1 && chuyenMonIndex != -1) {
+                    int id = cursor.getInt(idIndex);
+                    String tenGV = cursor.getString(tenGVIndex);
+                    String email = cursor.getString(emailIndex);
+                    String chuyenMon = cursor.getString(chuyenMonIndex);
+
+                    GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon);
+                    danhSach.add(gv);
+                } else {
+                    // Handle missing column case (you could log it or throw an exception)
+                    Log.e("DatabaseHelper", "One or more columns are missing in GiangVien table.");
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return danhSach;
+    }
+
+    public List<GiangVien> getGiangVienByName(String name) {
+        List<GiangVien> danhSach = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM GiangVien WHERE tenGV LIKE ?";
+        Cursor cursor = db.rawQuery(query, new String[]{"%" + name + "%"});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int idIndex = cursor.getColumnIndex("id");
+                int tenGVIndex = cursor.getColumnIndex("tenGV");
+                int emailIndex = cursor.getColumnIndex("email");
+                int chuyenMonIndex = cursor.getColumnIndex("chuyenMon");
+
+                // Check if any column index is -1 (which indicates the column doesn't exist)
+                if (idIndex != -1 && tenGVIndex != -1 && emailIndex != -1 && chuyenMonIndex != -1) {
+                    int id = cursor.getInt(idIndex);
+                    String tenGV = cursor.getString(tenGVIndex);
+                    String email = cursor.getString(emailIndex);
+                    String chuyenMon = cursor.getString(chuyenMonIndex);
+
+                    GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon);
+                    danhSach.add(gv);
+                } else {
+                    // Handle missing column case (you could log it or throw an exception)
+                    Log.e("DatabaseHelper", "One or more columns are missing in GiangVien table.");
+                }
+            } while (cursor.moveToNext());
+        }
+        cursor.close();
+        db.close();
+        return danhSach;
+    }
+
 }

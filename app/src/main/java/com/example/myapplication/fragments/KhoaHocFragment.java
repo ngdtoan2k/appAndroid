@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.fragments;
 
 
 
@@ -20,6 +20,11 @@ import android.widget.EditText;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.myapplication.DatabaseHelper;
+import com.example.myapplication.R;
+import com.example.myapplication.adapter.KhoaHocAdapter;
+import com.example.myapplication.model.KhoaHoc;
 
 import java.util.ArrayList;
 
