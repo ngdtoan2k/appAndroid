@@ -11,11 +11,12 @@ import android.util.Log;
 import com.example.myapplication.model.GiangVien;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "KhoaHocDB.db";
-    public static final int DB_VERSION = 8;
+    public static final int DB_VERSION = 15;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -23,12 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        String createKhoaHoc = "CREATE TABLE KhoaHoc (" +
-//                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                "ten TEXT, " +
-//                "ngayBatDau TEXT, " +
-//                "ngayKetThuc TEXT, " +
-//                "kichHoat INTEGER)";
+
 
         String createKhoaHoc = "CREATE TABLE KhoaHoc (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -45,7 +41,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "tenNH TEXT, " +
                 "email TEXT UNIQUE, " +
-                "password TEXT)";
+                "password TEXT, " +
+
+                "gioiTinh TEXT, " +
+                "soDienThoai TEXT)";
         db.execSQL(createNguoiHoc);
 
         String createDangKy = "CREATE TABLE DangKy (" +
@@ -59,24 +58,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "tenGV TEXT, " +
                 "email TEXT, " +
-                "chuyenMon TEXT)";
+                "chuyenMon TEXT, "+
+                "gioiTinh TEXT,"+
+                "thamNien INTEGER,"+
+               " moTa TEXT,"+
+                "monGiangDay TEXT,"+
+                "anh INTEGER)";
         db.execSQL(createGiangVien);
 
-// Dữ liệu mẫu
-        db.execSQL("INSERT INTO GiangVien (tenGV, email, chuyenMon) VALUES " +
-                "('Tran Van C', 'c@gmail.com', 'Android')," +
-                "('Nguyen Thi D', 'd@gmail.com', 'Java Web')");
+
+        db.execSQL("INSERT INTO GiangVien (tenGV, email, chuyenMon, gioiTinh, thamNien, moTa, monGiangDay, anh) VALUES " +
+                "('Tran Van C', 'c@gmail.com', 'Android', 'Nam', 10, 'Giảng viên Android', 'Android, Kotlin', 123)," +
+                "('Nguyen Thi D', 'd@gmail.com', 'Java Web', 'Nữ', 8, 'Giảng viên Java Web', 'Java, Spring', 124)");
 
         // Dữ liệu mẫu
-        db.execSQL("INSERT INTO NguoiHoc (tenNH, email, password) VALUES " +
-                "('Nguyen Van A', 'a@gmail.com', '123')," +
-                "('Le Thi B', 'b@gmail.com', '123')");
-//        db.execSQL("INSERT INTO KhoaHoc (ten, ngayBatDau, ngayKetThuc, kichHoat) VALUES " +
-//                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1)," +
-//                "('Java Web', '2025-06-01', '2025-06-30', 0)");
+        db.execSQL("INSERT INTO NguoiHoc (tenNH, email, password, gioiTinh,soDienThoai ) VALUES " +
+                "('Nguyen Van A', 'a@gmail.com', '123','Nam','0912345678')," +
+                "('Le Thi B', 'b@gmail.com', '123','Nữ','0912345678')");
+
         db.execSQL("INSERT INTO KhoaHoc (ten, ngayBatDau, ngayKetThuc, kichHoat, giangVien, moTa) VALUES " +
                 "('Android Cơ bản', '2025-05-01', '2025-05-30', 1, 'Nguyễn Văn A', 'Khóa học giới thiệu về Android cơ bản')," +
-                "('Java Web', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình Java Web')");
+                "('Java Web', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình Java Web'),"+
+                "('C++', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình C++')");
 
     }
 
@@ -101,14 +104,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int emailIndex = cursor.getColumnIndex("email");
                 int chuyenMonIndex = cursor.getColumnIndex("chuyenMon");
 
-                // Check if any column index is -1 (which indicates the column doesn't exist)
-                if (idIndex != -1 && tenGVIndex != -1 && emailIndex != -1 && chuyenMonIndex != -1) {
+                int gioiTinhIndex = cursor.getColumnIndex("gioiTinh");
+                int thamNienIndex = cursor.getColumnIndex("thamNien");
+                int moTaIndex = cursor.getColumnIndex("moTa");
+                int monGiangDayIndex = cursor.getColumnIndex("monGiangDay");
+                int anhIndex = cursor.getColumnIndex("anh");
+
+
+//                if (idIndex != -1 && tenGVIndex != -1 && emailIndex != -1 && chuyenMonIndex != -1) {
+
+                if (idIndex != -1 && tenGVIndex != -1 && emailIndex != -1 && chuyenMonIndex != -1 &&
+                        gioiTinhIndex != -1 && thamNienIndex != -1 && moTaIndex != -1 && monGiangDayIndex != -1 && anhIndex != -1) {
+
                     int id = cursor.getInt(idIndex);
                     String tenGV = cursor.getString(tenGVIndex);
                     String email = cursor.getString(emailIndex);
                     String chuyenMon = cursor.getString(chuyenMonIndex);
 
-                    GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon);
+                    String gioiTinh = cursor.getString(gioiTinhIndex);
+                    int thamNien = cursor.getInt(thamNienIndex);
+                    String moTa = cursor.getString(moTaIndex);
+                    String monGiangDayStr = cursor.getString(monGiangDayIndex);
+                    int anh = cursor.getInt(anhIndex);
+
+//                    GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon);
+//                    danhSach.add(gv)
+                        // Chuyển chuỗi monGiangDay thành danh sách
+                List<String> monGiangDay = Arrays.asList(monGiangDayStr.split(","));
+
+                // Tạo đối tượng GiangVien với đầy đủ thông tin
+                GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon, gioiTinh, thamNien, moTa, monGiangDay, anh);
                     danhSach.add(gv);
                 } else {
                     // Handle missing column case (you could log it or throw an exception)
@@ -134,14 +159,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 int emailIndex = cursor.getColumnIndex("email");
                 int chuyenMonIndex = cursor.getColumnIndex("chuyenMon");
 
+                int gioiTinhIndex = cursor.getColumnIndex("gioiTinh");
+                int thamNienIndex = cursor.getColumnIndex("thamNien");
+                int moTaIndex = cursor.getColumnIndex("moTa");
+                int monGiangDayIndex = cursor.getColumnIndex("monGiangDay");
+                int anhIndex = cursor.getColumnIndex("anh");
+
                 // Check if any column index is -1 (which indicates the column doesn't exist)
-                if (idIndex != -1 && tenGVIndex != -1 && emailIndex != -1 && chuyenMonIndex != -1) {
+//                if (idIndex != -1 && tenGVIndex != -1 && emailIndex != -1 && chuyenMonIndex != -1) {
+
+                if (idIndex != -1 && tenGVIndex != -1 && emailIndex != -1 && chuyenMonIndex != -1 &&
+                        gioiTinhIndex != -1 && thamNienIndex != -1 && moTaIndex != -1 && monGiangDayIndex != -1 && anhIndex != -1) {
                     int id = cursor.getInt(idIndex);
                     String tenGV = cursor.getString(tenGVIndex);
                     String email = cursor.getString(emailIndex);
                     String chuyenMon = cursor.getString(chuyenMonIndex);
 
-                    GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon);
+                    String gioiTinh = cursor.getString(gioiTinhIndex);
+                    int thamNien = cursor.getInt(thamNienIndex);
+                    String moTa = cursor.getString(moTaIndex);
+                    String monGiangDayStr = cursor.getString(monGiangDayIndex);
+                    int anh = cursor.getInt(anhIndex);
+
+//                    GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon);
+//                    danhSach.add(gv);
+
+                    List<String> monGiangDay = Arrays.asList(monGiangDayStr.split(","));
+
+                    // Tạo đối tượng GiangVien với đầy đủ thông tin
+                    GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon, gioiTinh, thamNien, moTa, monGiangDay, anh);
                     danhSach.add(gv);
                 } else {
                     // Handle missing column case (you could log it or throw an exception)

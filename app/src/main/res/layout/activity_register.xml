@@ -1,138 +1,288 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    android:padding="24dp"
-    android:background="@drawable/anh7">
+    android:background="@drawable/anh7"
+    android:fillViewport="true">
 
-    <!-- Tiêu đề -->
-    <TextView
-        android:id="@+id/txtTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Đăng ký"
-        android:textSize="24sp"
-        android:textColor="#212121"
-        android:textStyle="bold"
-        android:layout_marginBottom="24dp" />
-
-    <!-- Họ và tên -->
-    <EditText
-        android:id="@+id/edtName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Họ và tên"
-        android:background="@drawable/edittext_bg"
-        android:padding="12dp"
-        android:textColor="#000"
-        android:textColorHint="#888"
-        android:drawableStart="@android:drawable/ic_menu_edit" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="24dp">
 
-    <!-- Email -->
-    <EditText
-        android:id="@+id/edtEmail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Email"
-        android:inputType="textEmailAddress"
-        android:background="@drawable/edittext_bg"
-        android:padding="12dp"
-        android:layout_marginTop="12dp"
-        android:textColor="#000"
-        android:textColorHint="#888"
-        android:drawableStart="@android:drawable/ic_dialog_email" />
+        <!-- Tiêu đề -->
+        <TextView
+            android:id="@+id/txtTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký"
+            android:textSize="24sp"
+            android:textColor="#212121"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
 
-    <!-- Mật khẩu -->
-    <EditText
-        android:id="@+id/edtPassword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Mật khẩu"
-        android:inputType="textPassword"
-        android:background="@drawable/edittext_bg"
-        android:padding="12dp"
-        android:layout_marginTop="12dp"
-        android:textColor="#000"
-        android:textColorHint="#888"
-        android:drawableStart="@android:drawable/ic_lock_lock" />
+        <!-- Họ và tên -->
+        <EditText
+            android:id="@+id/edtName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Họ và tên"
+            android:background="@drawable/edittext_bg"
+            android:padding="12dp"
+            android:textColor="#000"
+            android:textColorHint="#888"
+            android:drawableStart="@android:drawable/ic_menu_edit" />
 
-    <!-- Nút đăng ký -->
-    <Button
-        android:id="@+id/btnRegister"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Đăng ký"
-        android:layout_marginTop="24dp"
-        android:backgroundTint="#4CAF50"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:padding="12dp"
-        android:elevation="4dp"
-        android:textSize="16sp" />
+        <!-- Email -->
+        <EditText
+            android:id="@+id/edtEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            android:background="@drawable/edittext_bg"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:textColor="#000"
+            android:textColorHint="#888"
+            android:drawableStart="@android:drawable/ic_dialog_email" />
 
-    <!-- Nút quay về -->
-    <Button
-        android:id="@+id/btnBackToLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Quay lại đăng nhập"
-        android:layout_marginTop="12dp"
-        android:backgroundTint="#2196F3"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:padding="12dp"
-        android:elevation="2dp"
-        android:textSize="16sp"
-        android:fontFamily="sans-serif-medium" />
-</LinearLayout>
+        <!-- Mật khẩu -->
+        <EditText
+            android:id="@+id/edtPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mật khẩu"
+            android:inputType="textPassword"
+            android:background="@drawable/edittext_bg"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:textColor="#000"
+            android:textColorHint="#888"
+            android:drawableStart="@android:drawable/ic_lock_lock" />
 
+        <!-- Nhập lại mật khẩu -->
+        <EditText
+            android:id="@+id/edtConfirmPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nhập lại mật khẩu"
+            android:inputType="textPassword"
+            android:background="@drawable/edittext_bg"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:textColor="#000"
+            android:textColorHint="#888"
+            android:drawableStart="@android:drawable/ic_lock_lock" />
+
+        <!-- Giới tính -->
+        <RadioGroup
+            android:id="@+id/radioGender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="12dp">
+
+            <RadioButton
+                android:id="@+id/radioMale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nam"
+                android:checked="true" />
+
+            <RadioButton
+                android:id="@+id/radioFemale"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nữ"
+                android:layout_marginStart="24dp" />
+        </RadioGroup>
+
+        <!-- Số điện thoại -->
+        <EditText
+            android:id="@+id/edtPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số điện thoại"
+            android:inputType="phone"
+            android:background="@drawable/edittext_bg"
+            android:padding="12dp"
+            android:layout_marginTop="12dp"
+            android:textColor="#000"
+            android:textColorHint="#888"
+            android:drawableStart="@android:drawable/ic_menu_call" />
+
+        <!-- Nút đăng ký -->
+        <Button
+            android:id="@+id/btnRegister"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#4CAF50"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:padding="12dp"
+            android:elevation="4dp"
+            android:textSize="16sp" />
+
+        <!-- Nút quay về -->
+        <Button
+            android:id="@+id/btnBackToLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Quay lại đăng nhập"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#2196F3"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:padding="12dp"
+            android:elevation="2dp"
+            android:textSize="16sp"
+            android:fontFamily="sans-serif-medium" />
+
+    </LinearLayout>
+</ScrollView>
     <!--<?xml version="1.0" encoding="utf-8"?>-->
 <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
 <!--    android:layout_width="match_parent"-->
 <!--    android:layout_height="match_parent"-->
-<!--    android:padding="24dp"-->
 <!--    android:orientation="vertical"-->
-<!--    android:gravity="center">-->
+<!--    android:gravity="center"-->
+<!--    android:padding="24dp"-->
+<!--    android:background="@drawable/anh7">-->
 
+<!--    &lt;!&ndash; Tiêu đề &ndash;&gt;-->
+<!--    <TextView-->
+<!--        android:id="@+id/txtTitle"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Đăng ký"-->
+<!--        android:textSize="24sp"-->
+<!--        android:textColor="#212121"-->
+<!--        android:textStyle="bold"-->
+<!--        android:layout_marginBottom="24dp" />-->
+
+<!--    &lt;!&ndash; Họ và tên &ndash;&gt;-->
 <!--    <EditText-->
 <!--        android:id="@+id/edtName"-->
-<!--        android:hint="Họ và tên"-->
 <!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content" />-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Họ và tên"-->
+<!--        android:background="@drawable/edittext_bg"-->
+<!--        android:padding="12dp"-->
+<!--        android:textColor="#000"-->
+<!--        android:textColorHint="#888"-->
+<!--        android:drawableStart="@android:drawable/ic_menu_edit" />-->
 
+<!--    &lt;!&ndash; Email &ndash;&gt;-->
 <!--    <EditText-->
 <!--        android:id="@+id/edtEmail"-->
-<!--        android:hint="Email"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Email"-->
 <!--        android:inputType="textEmailAddress"-->
-<!--        android:layout_marginTop="12dp" />-->
+<!--        android:background="@drawable/edittext_bg"-->
+<!--        android:padding="12dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:textColor="#000"-->
+<!--        android:textColorHint="#888"-->
+<!--        android:drawableStart="@android:drawable/ic_dialog_email" />-->
 
+<!--    &lt;!&ndash; Mật khẩu &ndash;&gt;-->
 <!--    <EditText-->
 <!--        android:id="@+id/edtPassword"-->
-<!--        android:hint="Mật khẩu"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Mật khẩu"-->
 <!--        android:inputType="textPassword"-->
-<!--        android:layout_marginTop="12dp" />-->
+<!--        android:background="@drawable/edittext_bg"-->
+<!--        android:padding="12dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:textColor="#000"-->
+<!--        android:textColorHint="#888"-->
+<!--        android:drawableStart="@android:drawable/ic_lock_lock" />-->
 
+<!--    &lt;!&ndash; Nhập lại mật khẩu &ndash;&gt;-->
+<!--    <EditText-->
+<!--        android:id="@+id/edtConfirmPassword"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Nhập lại mật khẩu"-->
+<!--        android:inputType="textPassword"-->
+<!--        android:background="@drawable/edittext_bg"-->
+<!--        android:padding="12dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:textColor="#000"-->
+<!--        android:textColorHint="#888"-->
+<!--        android:drawableStart="@android:drawable/ic_lock_lock" />-->
+
+<!--    &lt;!&ndash; Giới tính &ndash;&gt;-->
+<!--    <RadioGroup-->
+<!--        android:id="@+id/radioGender"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="horizontal"-->
+<!--        android:layout_marginTop="12dp">-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/radioMale"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Nam"-->
+<!--            android:checked="true" />-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/radioFemale"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Nữ"-->
+<!--            android:layout_marginStart="24dp" />-->
+<!--    </RadioGroup>-->
+
+<!--    &lt;!&ndash; Số điện thoại &ndash;&gt;-->
+<!--    <EditText-->
+<!--        android:id="@+id/edtPhone"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:hint="Số điện thoại"-->
+<!--        android:inputType="phone"-->
+<!--        android:background="@drawable/edittext_bg"-->
+<!--        android:padding="12dp"-->
+<!--        android:layout_marginTop="12dp"-->
+<!--        android:textColor="#000"-->
+<!--        android:textColorHint="#888"-->
+<!--        android:drawableStart="@android:drawable/ic_menu_call" />-->
+
+<!--    &lt;!&ndash; Nút đăng ký &ndash;&gt;-->
 <!--    <Button-->
 <!--        android:id="@+id/btnRegister"-->
-<!--        android:text="Đăng ký"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="18dp" />-->
+<!--        android:text="Đăng ký"-->
+<!--        android:layout_marginTop="24dp"-->
+<!--        android:backgroundTint="#4CAF50"-->
+<!--        android:textColor="#FFFFFF"-->
+<!--        android:textAllCaps="false"-->
+<!--        android:padding="12dp"-->
+<!--        android:elevation="4dp"-->
+<!--        android:textSize="16sp" />-->
+
+<!--    &lt;!&ndash; Nút quay về &ndash;&gt;-->
 <!--    <Button-->
 <!--        android:id="@+id/btnBackToLogin"-->
-<!--        android:text="Quay lại đăng nhập"-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
+<!--        android:text="Quay lại đăng nhập"-->
 <!--        android:layout_marginTop="12dp"-->
 <!--        android:backgroundTint="#2196F3"-->
 <!--        android:textColor="#FFFFFF"-->
 <!--        android:textAllCaps="false"-->
+<!--        android:padding="12dp"-->
+<!--        android:elevation="2dp"-->
 <!--        android:textSize="16sp"-->
 <!--        android:fontFamily="sans-serif-medium" />-->
 <!--</LinearLayout>-->
+

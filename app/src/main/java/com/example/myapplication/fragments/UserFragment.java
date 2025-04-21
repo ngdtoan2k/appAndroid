@@ -23,45 +23,46 @@ public class UserFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_user, container, false);
     }
 
-//    @Override
-//    public void onViewCreated(View view, Bundle savedInstanceState) {
-//        super.onViewCreated(view, savedInstanceState);
+
+//@Override
+//public void onViewCreated(View view, Bundle savedInstanceState) {
+//    super.onViewCreated(view, savedInstanceState);
 //
-//        txtUserInfo = view.findViewById(R.id.txtUserInfo);
-//        btnLoginLogout = view.findViewById(R.id.btnLoginLogout);
+//    txtUserInfo = view.findViewById(R.id.txtUserInfo);
+//    btnLoginLogout = view.findViewById(R.id.btnLoginLogout);
 //
-//        SharedPreferences pref = getActivity().getSharedPreferences("MyApp", getContext().MODE_PRIVATE);
-//        int nguoiHocId = pref.getInt("nguoiHocId", -1);
+//    SharedPreferences pref = getActivity().getSharedPreferences("MyApp", getContext().MODE_PRIVATE);
+//    int nguoiHocId = pref.getInt("nguoiHocId", -1);
 //
-//        if (nguoiHocId == -1) {
-//            // Chưa đăng nhập, hiển thị nút Đăng nhập
-//            txtUserInfo.setText("Bạn chưa đăng nhập");
-//            btnLoginLogout.setText("Đăng nhập");
-//            btnLoginLogout.setOnClickListener(v -> {
-//                // Chuyển đến màn hình đăng nhập
-//                startActivity(new Intent(getContext(), LoginActivity.class));
-//            });
-//        } else {
-//            // Đã đăng nhập, hiển thị thông tin người dùng
-//            String tenNguoiHoc = pref.getString("tenNguoiHoc", "Người dùng");
-//            String email = pref.getString("email", "Email không xác định");
-//            txtUserInfo.setText("Tên: " + tenNguoiHoc + "\nEmail: " + email);
+//    if (nguoiHocId == -1) {
+//        // Chưa đăng nhập, hiển thị nút Đăng nhập
+//        txtUserInfo.setText("Bạn chưa đăng nhập");
+//        btnLoginLogout.setText("Đăng nhập");
+//        btnLoginLogout.setOnClickListener(v -> {
+//            // Chuyển đến màn hình đăng nhập
+//            startActivity(new Intent(getContext(), LoginActivity.class));
+//        });
+//    } else {
+//        // Đã đăng nhập, hiển thị thông tin người dùng
+//        String tenNguoiHoc = pref.getString("tenNguoiHoc", "Người dùng");
+//        String email = pref.getString("email", "Email không xác định");
+//        txtUserInfo.setText("Tên: " + tenNguoiHoc + "\nEmail: " + email);
 //
-//            // Nút đăng xuất
-//            btnLoginLogout.setText("Đăng xuất");
-//            btnLoginLogout.setOnClickListener(v -> {
-//                SharedPreferences.Editor editor = pref.edit();
-//                editor.remove("nguoiHocId");
-//                editor.remove("tenNguoiHoc");
-//                editor.remove("email");
-//                editor.apply();
+//        // Nút đăng xuất
+//        btnLoginLogout.setText("Đăng xuất");
+//        btnLoginLogout.setOnClickListener(v -> {
+//            SharedPreferences.Editor editor = pref.edit();
+//            editor.remove("nguoiHocId");
+//            editor.remove("tenNguoiHoc");
+//            editor.remove("email");
+//            editor.apply();
 //
-//                // Quay lại LoginActivity
-//                startActivity(new Intent(getContext(), LoginActivity.class));
-//                getActivity().finish(); // Đóng MainActivity2
-//            });
-//        }
+//            // Quay lại LoginActivity
+//            startActivity(new Intent(getContext(), LoginActivity.class));
+//            getActivity().finish(); // Đóng MainActivity2
+//        });
 //    }
+//}
 @Override
 public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
@@ -73,31 +74,34 @@ public void onViewCreated(View view, Bundle savedInstanceState) {
     int nguoiHocId = pref.getInt("nguoiHocId", -1);
 
     if (nguoiHocId == -1) {
-        // Chưa đăng nhập, hiển thị nút Đăng nhập
         txtUserInfo.setText("Bạn chưa đăng nhập");
         btnLoginLogout.setText("Đăng nhập");
         btnLoginLogout.setOnClickListener(v -> {
-            // Chuyển đến màn hình đăng nhập
             startActivity(new Intent(getContext(), LoginActivity.class));
         });
     } else {
-        // Đã đăng nhập, hiển thị thông tin người dùng
+        // Đọc thông tin đầy đủ từ SharedPreferences
         String tenNguoiHoc = pref.getString("tenNguoiHoc", "Người dùng");
         String email = pref.getString("email", "Email không xác định");
-        txtUserInfo.setText("Tên: " + tenNguoiHoc + "\nEmail: " + email);
+        String gioiTinh = pref.getString("gioiTinh", "Chưa rõ");
+        String soDienThoai = pref.getString("soDienThoai", "Không có");
 
-        // Nút đăng xuất
+        // Hiển thị thông tin chi tiết
+        String info = "Tên: " + tenNguoiHoc +
+                "\nEmail: " + email +
+                "\nGiới tính: " + gioiTinh +
+                "\nSĐT: " + soDienThoai;
+
+        txtUserInfo.setText(info);
+
         btnLoginLogout.setText("Đăng xuất");
         btnLoginLogout.setOnClickListener(v -> {
             SharedPreferences.Editor editor = pref.edit();
-            editor.remove("nguoiHocId");
-            editor.remove("tenNguoiHoc");
-            editor.remove("email");
+            editor.clear(); // Xóa toàn bộ thông tin
             editor.apply();
 
-            // Quay lại LoginActivity
             startActivity(new Intent(getContext(), LoginActivity.class));
-            getActivity().finish(); // Đóng MainActivity2
+            getActivity().finish();
         });
     }
 }
