@@ -4,9 +4,11 @@ package com.example.myapplication.fragments;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.text.Editable;
@@ -51,6 +53,13 @@ public class KhoaHocFragment extends Fragment {
         chkKichHoat = view.findViewById(R.id.chkKichHoat);
         dbHelper = new DatabaseHelper(getContext());
 
+        ConstraintLayout constraintLayout = view.findViewById(R.id.constraintLayout);
+        AnimationDrawable animationDrawable = (AnimationDrawable) constraintLayout.getBackground();
+        animationDrawable.setEnterFadeDuration(2000); // 2 giây cho hiệu ứng fade-in
+        animationDrawable.setExitFadeDuration(2000);  // 2 giây cho hiệu ứng fade-out
+        animationDrawable.start();
+
+
         list = new ArrayList<>();
         adapter = new KhoaHocAdapter(list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -90,7 +99,10 @@ public class KhoaHocFragment extends Fragment {
             String ngayBD = cursor.getString(2);
             String ngayKT = cursor.getString(3);
             int kichHoat = cursor.getInt(4);
-            list.add(new KhoaHoc(id, ten, ngayBD, ngayKT, kichHoat == 1));
+
+            String giangVien = cursor.getString(5);  // Cột 'giangVien'
+            String moTa = cursor.getString(6);  // Cột 'moTa'
+            list.add(new KhoaHoc(id, ten, ngayBD, ngayKT, kichHoat == 1, giangVien, moTa));
         }
         cursor.close();
         adapter.notifyDataSetChanged();

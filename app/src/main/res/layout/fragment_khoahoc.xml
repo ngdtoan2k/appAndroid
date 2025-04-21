@@ -1,28 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="12dp">
+    android:padding="16dp"
+    android:id="@+id/constraintLayout"
+    android:background="@drawable/background_animation"
+    >
 
     <EditText
         android:id="@+id/edtSearch"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:hint="Tìm kiếm theo tên khóa học"
         android:drawableLeft="@android:drawable/ic_menu_search"
-        android:padding="8dp"/>
+        android:drawablePadding="8dp"
+        android:padding="12dp"
+        android:background="@drawable/rounded_edittext"
+    android:textColor="#333"
+    android:textSize="16sp"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.5" />
 
+    <!-- Checkbox chỉ hiển thị khóa học đang kích hoạt -->
     <CheckBox
         android:id="@+id/chkKichHoat"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Chỉ hiện khóa học đang kích hoạt"
-        android:layout_marginTop="8dp" />
+        android:textColor="#444"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@id/edtSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
 
+    <!-- RecyclerView hiển thị danh sách khóa học -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:layout_marginTop="8dp"/>
-</LinearLayout>
+        app:layout_constraintTop_toBottomOf="@id/chkKichHoat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+    android:paddingBottom="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

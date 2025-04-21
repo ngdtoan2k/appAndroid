@@ -2,16 +2,28 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/anh6"
+    android:padding="12dp">
 
+    <!-- Thanh tìm kiếm -->
     <android.widget.SearchView
         android:id="@+id/searchViewGiangVien"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:queryHint="Tìm giảng viên theo tên..."
+        android:iconifiedByDefault="false"
+        android:background="@drawable/searchview_bg"
+        android:padding="8dp" />
 
+    <!-- Danh sách giảng viên -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewGiangVien"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:clipToPadding="false"
+        android:paddingBottom="8dp" />
 </LinearLayout>
+

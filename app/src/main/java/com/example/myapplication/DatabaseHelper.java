@@ -15,7 +15,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "KhoaHocDB.db";
-    public static final int DB_VERSION = 6;
+    public static final int DB_VERSION = 8;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -23,12 +23,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+//        String createKhoaHoc = "CREATE TABLE KhoaHoc (" +
+//                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                "ten TEXT, " +
+//                "ngayBatDau TEXT, " +
+//                "ngayKetThuc TEXT, " +
+//                "kichHoat INTEGER)";
+
         String createKhoaHoc = "CREATE TABLE KhoaHoc (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "ten TEXT, " +
                 "ngayBatDau TEXT, " +
                 "ngayKetThuc TEXT, " +
-                "kichHoat INTEGER)";
+                "kichHoat INTEGER, " +
+                "giangVien TEXT, " +
+                "moTa TEXT)";
+
         db.execSQL(createKhoaHoc);
 
         String createNguoiHoc = "CREATE TABLE NguoiHoc (" +
@@ -61,9 +71,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("INSERT INTO NguoiHoc (tenNH, email, password) VALUES " +
                 "('Nguyen Van A', 'a@gmail.com', '123')," +
                 "('Le Thi B', 'b@gmail.com', '123')");
-        db.execSQL("INSERT INTO KhoaHoc (ten, ngayBatDau, ngayKetThuc, kichHoat) VALUES " +
-                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1)," +
-                "('Java Web', '2025-06-01', '2025-06-30', 0)");
+//        db.execSQL("INSERT INTO KhoaHoc (ten, ngayBatDau, ngayKetThuc, kichHoat) VALUES " +
+//                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1)," +
+//                "('Java Web', '2025-06-01', '2025-06-30', 0)");
+        db.execSQL("INSERT INTO KhoaHoc (ten, ngayBatDau, ngayKetThuc, kichHoat, giangVien, moTa) VALUES " +
+                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1, 'Nguyễn Văn A', 'Khóa học giới thiệu về Android cơ bản')," +
+                "('Java Web', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình Java Web')");
+
     }
 
     @Override

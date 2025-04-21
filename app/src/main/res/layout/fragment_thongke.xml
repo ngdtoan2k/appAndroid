@@ -1,18 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:padding="12dp"
+    android:orientation="vertical"
+    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/anh4">
 
+    <!-- Spinner chọn khóa học -->
     <Spinner
         android:id="@+id/spinnerKH"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:spinnerMode="dropdown" />
+        android:spinnerMode="dropdown"
+        android:background="@drawable/spinner_bg"
+        android:padding="12dp" />
 
+    <!-- Danh sách người học -->
     <ListView
         android:id="@+id/listNguoiHoc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"/>
+        android:layout_marginTop="12dp"
+        android:divider="#CCCCCC"
+        android:dividerHeight="1dp"
+        android:background="@android:color/white"
+        android:padding="8dp" />
 </LinearLayout>
+
+    <!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    android:orientation="vertical" android:padding="12dp"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent">-->
+
+<!--    <Spinner-->
+<!--        android:id="@+id/spinnerKH"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:spinnerMode="dropdown" />-->
+
+<!--    <ListView-->
+<!--        android:id="@+id/listNguoiHoc"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_marginTop="12dp"/>-->
+<!--</LinearLayout>-->
