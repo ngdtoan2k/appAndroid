@@ -10,12 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
 import com.example.myapplication.adapter.GiangVienAdapter;
 import com.example.myapplication.model.GiangVien;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,14 +34,15 @@ public class GiangVienFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         recyclerView = view.findViewById(R.id.recyclerViewGiangVien);
         searchView = view.findViewById(R.id.searchViewGiangVien);
+        loadData();
+    }
 
+    public void loadData() {
         danhSachGiangVien = new ArrayList<>();
-        // Lấy dữ liệu từ database và đổ vào danhSachGiangVien
         DatabaseHelper dbHelper = new DatabaseHelper(getActivity());
-        danhSachGiangVien = dbHelper.getAllGiangVien(); // Giả sử bạn đã có phương thức này trong DatabaseHelper
+        danhSachGiangVien = dbHelper.getAllGiangVien();
 
         adapter = new GiangVienAdapter(getContext(), danhSachGiangVien);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -63,3 +62,4 @@ public class GiangVienFragment extends Fragment {
         });
     }
 }
+

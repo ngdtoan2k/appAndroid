@@ -45,6 +45,7 @@ public class DangKyDialog extends Dialog {
 
         loadData();
 
+
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -61,10 +62,14 @@ public class DangKyDialog extends Dialog {
                             new Object[]{khId, nhId});
                     Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
                     dismiss();
+                    if (listener != null) {
+                        listener.onDangKySuccess();  // Gọi listener để cập nhật lại UI
+                    }
                 }
                 check.close();
             }
         });
+
     }
 
     private void loadData() {
@@ -92,5 +97,16 @@ public class DangKyDialog extends Dialog {
         spnKhoaHoc.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, dsKhoaHoc));
         spnNguoiHoc.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, dsNguoiHoc));
     }
+//    validatedulieu
+    public interface OnDangKySuccessListener {
+        void onDangKySuccess();
+    }
+
+    private OnDangKySuccessListener listener;
+
+    public void setOnDangKySuccessListener(OnDangKySuccessListener listener) {
+        this.listener = listener;
+    }
+
 }
 

@@ -101,23 +101,7 @@ public class GiangVienAdapter extends RecyclerView.Adapter<GiangVienAdapter.View
             txtChuyenMon = itemView.findViewById(R.id.txtChuyenMonGV);
         }
     }
-//    private void showGiangVienDetailDialog(Context context, GiangVien gv) {
-//        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-//        View view = LayoutInflater.from(context).inflate(R.layout.dialog_giangvien_detail, null);
-//        builder.setView(view);
-//
-//        ((ImageView) view.findViewById(R.id.imgGiangVien)).setImageResource(gv.getAnhMinhHoaResId());
-//        ((TextView) view.findViewById(R.id.tvTenGV)).setText("Tên: " + gv.getTenGV());
-//        ((TextView) view.findViewById(R.id.tvEmail)).setText("Email: " + gv.getEmail());
-//        ((TextView) view.findViewById(R.id.tvChuyenMon)).setText("Chuyên môn: " + gv.getChuyenMon());
-//        ((TextView) view.findViewById(R.id.tvGioiTinh)).setText("Giới tính: " + gv.getGioiTinh());
-//        ((TextView) view.findViewById(R.id.tvThamNien)).setText("Thâm niên: " + gv.getThamNien() + " năm");
-//        ((TextView) view.findViewById(R.id.tvMoTa)).setText("Mô tả: " + gv.getMoTa());
-//        ((TextView) view.findViewById(R.id.tvDanhSachMon)).setText("Các môn giảng dạy:\n- " + String.join("\n- ", gv.getDanhSachMon()));
-//
-//        builder.setPositiveButton("Đóng", null);
-//        builder.create().show();
-//    }
+
 private void showGiangVienDetailDialog(Context context, GiangVien gv) {
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     View view = LayoutInflater.from(context).inflate(R.layout.dialog_giangvien_detail, null);
@@ -168,60 +152,3 @@ private void showGiangVienDetailDialog(Context context, GiangVien gv) {
 
 }
 
-//package com.example.myapplication;
-//
-//import android.content.Context;
-//import android.view.LayoutInflater;
-//import android.view.View;
-//import android.view.ViewGroup;
-//import android.widget.TextView;
-//
-//import androidx.annotation.NonNull;
-//import androidx.recyclerview.widget.RecyclerView;
-//
-//import java.util.List;
-//
-//public class GiangVienAdapter extends RecyclerView.Adapter<GiangVienAdapter.ViewHolder> {
-//    private List<GiangVien> danhSach;
-//    private Context context;
-//
-//    public GiangVienAdapter(Context context, List<GiangVien> danhSach) {
-//        this.context = context;
-//        this.danhSach = danhSach;
-//    }
-//
-//    @NonNull
-//    @Override
-//    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(context).inflate(R.layout.item_giangvien, parent, false);
-//        return new ViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-//        GiangVien gv = danhSach.get(position);
-//        holder.txtTen.setText(gv.getTenGV());
-//        holder.txtEmail.setText(gv.getEmail());
-//        holder.txtChuyenMon.setText(gv.getChuyenMon());
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return danhSach.size();
-//    }
-//
-//    public class ViewHolder extends RecyclerView.ViewHolder {
-//        TextView txtTen, txtEmail, txtChuyenMon;
-//
-//        public ViewHolder(@NonNull View itemView) {
-//            super(itemView);
-//            txtTen = itemView.findViewById(R.id.txtTenGV);
-//            txtEmail = itemView.findViewById(R.id.txtEmailGV);
-//            txtChuyenMon = itemView.findViewById(R.id.txtChuyenMonGV);
-//        }
-//
-//
-//    }
-//
-//}
-//

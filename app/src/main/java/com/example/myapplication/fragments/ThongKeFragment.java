@@ -1,30 +1,26 @@
 package com.example.myapplication.fragments;
 
-
-
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import com.example.myapplication.DangKyDialog;
 import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
-
+//import com.example.myapplication.dialogs.DangKyDialog;
 import java.util.ArrayList;
 
-public class ThongKeFragment extends Fragment {
+public class ThongKeFragment extends Fragment implements DangKyDialog.OnDangKySuccessListener {
     Spinner spinner;
     ListView listView;
     DatabaseHelper dbHelper;
@@ -57,7 +53,7 @@ public class ThongKeFragment extends Fragment {
         adapterNH = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, dsNguoiHoc);
         listView.setAdapter(adapterNH);
 
-        loadKhoaHoc();
+        loadData();
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -68,20 +64,61 @@ public class ThongKeFragment extends Fragment {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+
+        // Tạo và đăng ký listener khi mở DangKyDialog
+        DangKyDialog dialog = new DangKyDialog(getContext());
+        dialog.setOnDangKySuccessListener(this);
     }
 
-    private void loadKhoaHoc() {
-        dsKhoaHoc.clear();
-        idKhoaHoc.clear();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT id, ten FROM KhoaHoc", null);
-        while (cursor.moveToNext()) {
-            idKhoaHoc.add(cursor.getInt(0));
-            dsKhoaHoc.add(cursor.getString(1));
-        }
-        cursor.close();
-        adapterKH.notifyDataSetChanged();
+
+    @Override
+    public void onDangKySuccess() {
+        // Lấy ID khóa học đang chọn từ Spinner
+        int selectedKhoaHocId = idKhoaHoc.get(spinner.getSelectedItemPosition());
+
+        // Làm mới danh sách người học cho khóa học đã chọn
+        loadNguoiHocTheoKH(selectedKhoaHocId);
+
+        // Làm mới lại Spinner để đảm bảo thông tin mới được cập nhật
+        loadKhoaHoc();  // Gọi lại phương thức load lại danh sách khóa học
+
+        // Sau khi làm mới, đảm bảo rằng Spinner được chọn đúng khóa học đã đăng ký
+        spinner.setSelection(idKhoaHoc.indexOf(selectedKhoaHocId));
     }
+
+    public void showDangKyDialog() {
+        DangKyDialog dialog = new DangKyDialog(getContext());
+        dialog.setOnDangKySuccessListener(this);
+        dialog.show();
+    }
+
+
+public void loadData() {
+    loadKhoaHoc();
+
+    // Gọi thêm loadNguoiHocTheoKH nếu bạn muốn làm mới danh sách người học ngay khi tải dữ liệu
+    if (spinner.getSelectedItemPosition() >= 0) {
+        int selectedKhoaHocId = idKhoaHoc.get(spinner.getSelectedItemPosition());
+        loadNguoiHocTheoKH(selectedKhoaHocId);
+    }
+}
+
+
+private void loadKhoaHoc() {
+    dsKhoaHoc.clear();
+    idKhoaHoc.clear();
+    SQLiteDatabase db = dbHelper.getReadableDatabase();
+    Cursor cursor = db.rawQuery("SELECT id, ten FROM KhoaHoc", null);
+    while (cursor.moveToNext()) {
+        idKhoaHoc.add(cursor.getInt(0));
+        dsKhoaHoc.add(cursor.getString(1));
+    }
+    cursor.close();
+    adapterKH.notifyDataSetChanged();  // Thông báo cho Adapter cập nhật lại Spinner
+}
+
+
+
 
     private void loadNguoiHocTheoKH(int khoaHocId) {
         dsNguoiHoc.clear();
@@ -91,6 +128,9 @@ public class ThongKeFragment extends Fragment {
             dsNguoiHoc.add(cursor.getString(0));
         }
         cursor.close();
-        adapterNH.notifyDataSetChanged();
+        adapterNH.notifyDataSetChanged();  // Đảm bảo Adapter được thông báo thay đổi
     }
+
+
 }
+

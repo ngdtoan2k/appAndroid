@@ -16,7 +16,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "KhoaHocDB.db";
-    public static final int DB_VERSION = 15;
+    public static final int DB_VERSION = 18;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -68,7 +68,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         db.execSQL("INSERT INTO GiangVien (tenGV, email, chuyenMon, gioiTinh, thamNien, moTa, monGiangDay, anh) VALUES " +
-                "('Tran Van C', 'c@gmail.com', 'Android', 'Nam', 10, 'Giảng viên Android', 'Android, Kotlin', 123)," +
+                "('Trần Thị B', 'c@gmail.com', 'Android', 'Nam', 10, 'Giảng viên Android', 'Android, Kotlin', 123)," +
                 "('Nguyen Thi D', 'd@gmail.com', 'Java Web', 'Nữ', 8, 'Giảng viên Java Web', 'Java, Spring', 124)");
 
         // Dữ liệu mẫu
@@ -198,6 +198,35 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
         return danhSach;
+    }
+
+
+    public GiangVien layGiangVienTheoTen(String ten) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM GiangVien WHERE tenGV = ?", new String[]{ten});
+        GiangVien gv = null;
+        if (cursor.moveToFirst()) {
+            // Lấy chuỗi danh sách môn, ví dụ: "Java,C++,Android"
+            String danhSachMonStr = cursor.getString(7); // Cột danh sách môn học là cột thứ 8 (index 7)
+            List<String> danhSachMon = new ArrayList<>();
+            if (danhSachMonStr != null && !danhSachMonStr.isEmpty()) {
+                danhSachMon = Arrays.asList(danhSachMonStr.split(","));
+            }
+
+            gv = new GiangVien(
+                    cursor.getInt(0),         // id
+                    cursor.getString(1),      // tenGV
+                    cursor.getString(2),      // email
+                    cursor.getString(3),      // chuyenMon
+                    cursor.getString(4),      // gioiTinh
+                    cursor.getInt(5),         // thamNien
+                    cursor.getString(6),      // moTa
+                    danhSachMon,              // danh sách môn học
+                    cursor.getInt(8)          // anh minh họa (resource id)
+            );
+        }
+        cursor.close();
+        return gv;
     }
 
 }

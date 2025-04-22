@@ -12,15 +12,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.myapplication.R;
-import com.example.myapplication.fragments.GiangVienFragment;
-import com.example.myapplication.fragments.ThongKeFragment;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.ArrayList;
 
 public class ThongKeTabFragment extends Fragment {
 
     private TabLayout tabLayout;
     private ViewPager2 viewPager;
+    private ThongKePagerAdapter adapter;
 
     public ThongKeTabFragment() {}
 
@@ -35,7 +36,7 @@ public class ThongKeTabFragment extends Fragment {
         tabLayout = view.findViewById(R.id.tabLayout);
         viewPager = view.findViewById(R.id.viewPager);
 
-        ThongKePagerAdapter adapter = new ThongKePagerAdapter(getActivity());
+        adapter = new ThongKePagerAdapter(getActivity());
         viewPager.setAdapter(adapter);
 
         new TabLayoutMediator(tabLayout, viewPager,
@@ -49,25 +50,40 @@ public class ThongKeTabFragment extends Fragment {
         ).attach();
     }
 
-    private static class ThongKePagerAdapter extends FragmentStateAdapter {
+    // Cho phép MainActivity2 gọi ViewPager
+    public ViewPager2 getViewPager() {
+        return viewPager;
+    }
+
+    // Trả về fragment đang hiển thị theo vị trí
+    public Fragment getFragmentAt(int position) {
+        return adapter.getFragmentAt(position);
+    }
+
+    // Adapter lưu các fragment để truy cập lại
+    private class ThongKePagerAdapter extends FragmentStateAdapter {
+        private final ArrayList<Fragment> fragments = new ArrayList<>();
 
         public ThongKePagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
+            fragments.add(new ThongKeFragment());
+            fragments.add(new GiangVienFragment());
         }
 
         @NonNull
         @Override
         public Fragment createFragment(int position) {
-            if (position == 0) {
-                return new ThongKeFragment(); // Fragment thống kê người học (cũ)
-            } else {
-                return new GiangVienFragment(); // Sẽ tạo sau
-            }
+            return fragments.get(position);
         }
 
         @Override
         public int getItemCount() {
-            return 2;
+            return fragments.size();
+        }
+
+        public Fragment getFragmentAt(int position) {
+            return fragments.get(position);
         }
     }
 }
+

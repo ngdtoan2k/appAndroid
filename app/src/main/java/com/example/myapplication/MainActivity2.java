@@ -7,8 +7,11 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.myapplication.fragments.GiangVienFragment;
 import com.example.myapplication.fragments.KhoaHocFragment;
+import com.example.myapplication.fragments.ThongKeFragment;
 import com.example.myapplication.fragments.ThongKeTabFragment;
 import com.example.myapplication.fragments.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -66,7 +69,34 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(loginIntent); // Mở giao diện đăng nhập
                 } else {
                     // Nếu đã đăng nhập, mở Dialog đăng ký khóa học
-                    new DangKyDialog(MainActivity2.this).show();
+//                    new DangKyDialog(MainActivity2.this).show();
+
+
+                    DangKyDialog dialog = new DangKyDialog(MainActivity2.this);
+
+                    dialog.setOnDangKySuccessListener(new DangKyDialog.OnDangKySuccessListener() {
+                        @Override
+                        public void onDangKySuccess() {
+                            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+
+                            if (currentFragment instanceof ThongKeTabFragment) {
+                                ThongKeTabFragment thongKeTabFragment = (ThongKeTabFragment) currentFragment;
+                                ViewPager2 viewPager = thongKeTabFragment.getViewPager();
+                                int currentItem = viewPager.getCurrentItem();
+                                Fragment tabFragment = thongKeTabFragment.getFragmentAt(currentItem);
+
+                                if (tabFragment instanceof ThongKeFragment) {
+                                    // Gọi phương thức để load lại dữ liệu trong ThongKeFragment
+                                    ((ThongKeFragment) tabFragment).loadData(); // Cập nhật lại dữ liệu
+                                } else if (tabFragment instanceof GiangVienFragment) {
+                                    ((GiangVienFragment) tabFragment).loadData();
+                                }
+                            }
+                        }
+                    });
+
+                    dialog.show();
+
                 }
             }
         });

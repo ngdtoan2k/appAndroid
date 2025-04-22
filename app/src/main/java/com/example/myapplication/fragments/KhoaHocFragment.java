@@ -61,7 +61,9 @@ public class KhoaHocFragment extends Fragment {
 
 
         list = new ArrayList<>();
-        adapter = new KhoaHocAdapter(list);
+//        adapter = new KhoaHocAdapter(list);
+        adapter = new KhoaHocAdapter(getContext(), list);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
