@@ -3,6 +3,8 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import com.example.myapplication.fragments.ThongKeTabFragment;
 import com.example.myapplication.fragments.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -101,6 +104,38 @@ public class MainActivity2 extends AppCompatActivity {
             }
         });
 
+
+        // Xử lý kéo FAB
+        fab.setOnTouchListener(new View.OnTouchListener() {
+            float dX, dY;
+            int lastAction;
+
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        dX = view.getX() - event.getRawX();
+                        dY = view.getY() - event.getRawY();
+                        lastAction = MotionEvent.ACTION_DOWN;
+                        return true;
+
+                    case MotionEvent.ACTION_MOVE:
+                        view.setX(event.getRawX() + dX);
+                        view.setY(event.getRawY() + dY);
+                        lastAction = MotionEvent.ACTION_MOVE;
+                        return true;
+
+                    case MotionEvent.ACTION_UP:
+                        if (lastAction == MotionEvent.ACTION_DOWN) {
+                            view.performClick();
+                        }
+                        return true;
+
+                    default:
+                        return false;
+                }
+            }
+        });
     }
 
 }

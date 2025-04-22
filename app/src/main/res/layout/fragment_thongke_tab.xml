@@ -10,7 +10,8 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ACA8A8"
+        android:background="@drawable/tab_gradient"
+
         android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
         app:tabIndicatorColor="@color/white"
         app:tabTextColor="@color/white"

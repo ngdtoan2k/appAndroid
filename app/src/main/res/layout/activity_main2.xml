@@ -17,18 +17,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:menu="@menu/menu_bottom_nav" />
+        app:menu="@menu/menu_bottom_nav"
 
-    <!-- FloatingActionButton -->
+        android:background="@drawable/gradient_background"
+        />
+
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_add"
         android:layout_alignParentEnd="true"
         android:layout_margin="16dp"
         android:layout_above="@id/bottomNav"
-        app:backgroundTint="@color/purple_500" />
+
+        android:contentDescription="Thêm mới"
+        android:elevation="8dp"
+        android:scaleType="centerInside"
+        android:clickable="true"
+        android:focusable="true"
+
+        android:src="@drawable/ic_add_24"
+        android:background="#00BCD4"
+        app:tint="@android:color/white" />
+
+
+
 
 
 </RelativeLayout>
