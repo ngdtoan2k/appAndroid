@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
@@ -39,6 +40,8 @@ public class ThongKeTabFragment extends Fragment {
         adapter = new ThongKePagerAdapter(getActivity());
         viewPager.setAdapter(adapter);
 
+        viewPager.setOffscreenPageLimit(2); // Giữ luôn cả 2 fragment trong bộ nhớ
+
         new TabLayoutMediator(tabLayout, viewPager,
                 (tab, position) -> {
                     if (position == 0) {
@@ -48,6 +51,10 @@ public class ThongKeTabFragment extends Fragment {
                     }
                 }
         ).attach();
+
+
+
+
     }
 
     // Cho phép MainActivity2 gọi ViewPager

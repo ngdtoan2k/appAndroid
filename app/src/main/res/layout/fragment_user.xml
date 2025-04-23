@@ -37,8 +37,21 @@
             android:textSize="16sp"
             android:textColor="#2E2E2E"
             android:fontFamily="sans-serif" />
-    </androidx.cardview.widget.CardView>
 
+    </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/btnEditInfo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Chỉnh sửa"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:paddingVertical="14dp"
+        android:textSize="16sp"
+        android:layout_marginTop="5dp"
+        android:elevation="4dp"
+        android:background="@drawable/rounded_button2"
+        android:fontFamily="sans-serif-medium" />
     <!-- Nút đăng nhập / đăng xuất -->
     <Button
         android:id="@+id/btnLoginLogout"
@@ -49,7 +62,7 @@
         android:textAllCaps="false"
         android:paddingVertical="14dp"
         android:textSize="16sp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="15dp"
         android:elevation="4dp"
         android:background="@drawable/rounded_button"
         android:fontFamily="sans-serif-medium" />

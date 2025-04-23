@@ -68,6 +68,40 @@ public class ThongKeFragment extends Fragment implements DangKyDialog.OnDangKySu
         // Tạo và đăng ký listener khi mở DangKyDialog
         DangKyDialog dialog = new DangKyDialog(getContext());
         dialog.setOnDangKySuccessListener(this);
+
+//        listView.setOnItemClickListener((parent, view1, position, id) -> {
+//            String tenNguoiHoc = dsNguoiHoc.get(position);
+//            showConfirmDeleteDialog(tenNguoiHoc);
+//        });
+
+
+
+    }
+    private void showConfirmDeleteDialog(String tenNguoiHoc) {
+        new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                .setTitle("Xóa người học")
+                .setMessage("Bạn có chắc muốn xóa người học \"" + tenNguoiHoc + "\" khỏi khóa học này?")
+                .setPositiveButton("Xóa", (dialog, which) -> {
+                    deleteNguoiHoc(tenNguoiHoc); // Gọi hàm xóa
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
+    }
+    private void deleteNguoiHoc(String tenNguoiHoc) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        // Lấy id người học theo tên (chỉ xóa trong bảng DangKy)
+        Cursor cursor = db.rawQuery("SELECT id FROM NguoiHoc WHERE tenNH = ?", new String[]{tenNguoiHoc});
+        if (cursor.moveToFirst()) {
+            int nguoiHocId = cursor.getInt(0);
+            int khoaHocId = idKhoaHoc.get(spinner.getSelectedItemPosition());
+
+            db.delete("DangKy", "nguoiHocId = ? AND khoaHocId = ?", new String[]{String.valueOf(nguoiHocId), String.valueOf(khoaHocId)});
+        }
+        cursor.close();
+
+        // Làm mới danh sách
+        loadNguoiHocTheoKH(idKhoaHoc.get(spinner.getSelectedItemPosition()));
     }
 
 
@@ -91,7 +125,15 @@ public class ThongKeFragment extends Fragment implements DangKyDialog.OnDangKySu
         dialog.setOnDangKySuccessListener(this);
         dialog.show();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            String tenNguoiHoc = dsNguoiHoc.get(position);
+            showConfirmDeleteDialog(tenNguoiHoc);
+        });
+    }
 
 public void loadData() {
     loadKhoaHoc();
@@ -129,6 +171,11 @@ private void loadKhoaHoc() {
         }
         cursor.close();
         adapterNH.notifyDataSetChanged();  // Đảm bảo Adapter được thông báo thay đổi
+
+        listView.setOnItemClickListener((parent, view, position, id) -> {
+            String tenNguoiHoc = dsNguoiHoc.get(position);
+            showConfirmDeleteDialog(tenNguoiHoc);
+        });
     }
 
 

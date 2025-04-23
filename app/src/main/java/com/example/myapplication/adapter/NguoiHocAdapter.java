@@ -33,8 +33,9 @@ public class NguoiHocAdapter extends RecyclerView.Adapter<NguoiHocAdapter.NguoiH
     @Override
     public void onBindViewHolder(@NonNull NguoiHocViewHolder holder, int position) {
         NguoiHoc nh = list.get(position);
-        holder.txtTen.setText(nh.tenNH);
-        holder.txtEmail.setText(nh.email);
+        holder.txtTen.setText(nh.getTenNH());
+//        holder.txtEmail.setText(nh.email);
+        holder.txtEmail.setText(nh.getEmail());
     }
 
     @Override

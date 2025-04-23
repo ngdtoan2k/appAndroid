@@ -2,6 +2,7 @@ package com.example.myapplication;
 
 
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -9,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import com.example.myapplication.model.GiangVien;
+import com.example.myapplication.model.NguoiHoc;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -127,9 +129,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                     String monGiangDayStr = cursor.getString(monGiangDayIndex);
                     int anh = cursor.getInt(anhIndex);
 
-//                    GiangVien gv = new GiangVien(id, tenGV, email, chuyenMon);
-//                    danhSach.add(gv)
-                        // Chuyển chuỗi monGiangDay thành danh sách
+
                 List<String> monGiangDay = Arrays.asList(monGiangDayStr.split(","));
 
                 // Tạo đối tượng GiangVien với đầy đủ thông tin
@@ -227,6 +227,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
         cursor.close();
         return gv;
+    }
+    public boolean updateNguoiHoc(NguoiHoc nh) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("tenNH", nh.getTenNH());
+        values.put("email", nh.getEmail());
+        values.put("gioiTinh", nh.getGioiTinh());
+        values.put("soDienThoai", nh.getSoDienThoai());
+
+        int rows = db.update("NguoiHoc", values, "id = ?", new String[]{String.valueOf(nh.getId())});
+        db.close();
+        return rows > 0;
     }
 
 }
