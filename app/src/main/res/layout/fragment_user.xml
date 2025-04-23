@@ -1,108 +1,174 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/anh8"
     android:padding="24dp">
 
-    <!-- Avatar người dùng -->
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imgUserAvatar"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/userimg"
-        android:contentDescription="Ảnh người dùng"
-        app:civ_border_width="2dp"
-        app:civ_border_color="#0D72DD" />
-
-    <!-- Hộp chứa thông tin người dùng -->
-    <androidx.cardview.widget.CardView
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        app:cardCornerRadius="24dp"
-        app:cardElevation="8dp"
-        app:cardBackgroundColor="#FFFFFF" >
+        android:layout_height="wrap_content">
 
+        <!-- Avatar người dùng -->
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgUserAvatar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/userimg"
+            android:contentDescription="Ảnh người dùng"
+            app:civ_border_width="2dp"
+            app:civ_border_color="#0D72DD" />
+
+        <!-- Hộp chứa thông tin người dùng -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:cardCornerRadius="28dp"
+            app:cardElevation="12dp"
+            app:cardBackgroundColor="@android:color/white">
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="20dp">
+                android:orientation="vertical"
+                android:padding="24dp"
+                android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/txtTenNguoiDung"
+                <!-- Tên -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Tên: "
-                    android:textSize="16sp"
-                    android:textColor="#2E2E2E"
-                    android:fontFamily="sans-serif" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
 
-                <TextView
-                    android:id="@+id/txtEmailNguoiDung"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_myplaces"
+                        android:layout_marginEnd="8dp"
+                        app:tint="#CFC036"/>
+
+                    <TextView
+                        android:id="@+id/txtTenNguoiDung"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tên: Nguyễn Văn A"
+                        android:textSize="18sp"
+                        android:textColor="#333333"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- Email -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Email: "
-                    android:textSize="16sp"
-                    android:textColor="#2E2E2E"
-                    android:fontFamily="sans-serif" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
 
-                <TextView
-                    android:id="@+id/txtGioiTinhNguoiDung"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_dialog_email"
+                        android:layout_marginEnd="8dp"
+                        app:tint="@color/teal_700"/>
+
+                    <TextView
+                        android:id="@+id/txtEmailNguoiDung"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email: a@gmail.com"
+                        android:textSize="16sp"
+                        android:textColor="#555555" />
+                </LinearLayout>
+
+                <!-- Giới tính -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Giới tính: "
-                    android:textSize="16sp"
-                    android:textColor="#2E2E2E"
-                    android:fontFamily="sans-serif" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    android:layout_marginBottom="8dp">
 
-                <TextView
-                    android:id="@+id/txtSdtNguoiDung"
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_info_details"
+                        android:layout_marginEnd="8dp"
+                        app:tint="#CD446B"/>
+
+                    <TextView
+                        android:id="@+id/txtGioiTinhNguoiDung"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Giới tính: Nam"
+                        android:textSize="16sp"
+                        android:textColor="#555555" />
+                </LinearLayout>
+
+                <!-- SĐT -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="SĐT: "
-                    android:textSize="16sp"
-                    android:textColor="#2E2E2E"
-                    android:fontFamily="sans-serif" />
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:src="@android:drawable/ic_menu_call"
+                        android:layout_marginEnd="8dp"
+                       app:tint="#0D9712"
+                        />
+
+                    <TextView
+                        android:id="@+id/txtSdtNguoiDung"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SĐT: 0123456789"
+                        android:textSize="16sp"
+                        android:textColor="#555555" />
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-<!--    </androidx.cardview.widget.CardView>-->
-    <TextView
-        android:id="@+id/btnEditInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Chỉnh sửa"
-        android:textColor="#032BF4"
-        android:textAllCaps="false"
-        android:paddingVertical="14dp"
-        android:textSize="16sp"
-        android:layout_marginLeft="130dp"
-        android:elevation="4dp"
+        <!-- Chỉnh sửa thông tin -->
+        <TextView
+            android:id="@+id/btnEditInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Chỉnh sửa"
+            android:textColor="#032BF4"
+            android:textAllCaps="false"
+            android:paddingVertical="14dp"
+            android:textSize="16sp"
+            android:layout_marginLeft="130dp"
+            android:elevation="4dp"
+            android:fontFamily="sans-serif-medium" />
 
-        android:fontFamily="sans-serif-medium" />
-    <!-- Nút đăng nhập / đăng xuất -->
-    <Button
-        android:id="@+id/btnLoginLogout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Đăng nhập / Đăng xuất"
-        android:textColor="#FFFFFF"
-        android:textAllCaps="false"
-        android:paddingVertical="14dp"
-        android:textSize="16sp"
-        android:layout_marginTop="10dp"
-        android:elevation="4dp"
-        android:background="@drawable/rounded_button"
-        android:fontFamily="sans-serif-medium" />
+        <!-- Nút đăng nhập / đăng xuất -->
+        <Button
+            android:id="@+id/btnLoginLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Đăng nhập / Đăng xuất"
+            android:textColor="#FFFFFF"
+            android:textAllCaps="false"
+            android:paddingVertical="14dp"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:elevation="4dp"
+            android:background="@drawable/rounded_button"
+            android:fontFamily="sans-serif-medium" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
 
     <!--<?xml version="1.0" encoding="utf-8"?>-->
 <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
@@ -117,97 +183,193 @@
 <!--    &lt;!&ndash; Avatar người dùng &ndash;&gt;-->
 <!--    <de.hdodenhof.circleimageview.CircleImageView-->
 <!--        android:id="@+id/imgUserAvatar"-->
-<!--        android:layout_width="120dp"-->
-<!--        android:layout_height="120dp"-->
-<!--        android:layout_marginBottom="20dp"-->
+<!--        android:layout_width="80dp"-->
+<!--        android:layout_height="80dp"-->
+<!--        android:layout_marginBottom="10dp"-->
 <!--        android:src="@drawable/userimg"-->
 <!--        android:contentDescription="Ảnh người dùng"-->
 <!--        app:civ_border_width="2dp"-->
 <!--        app:civ_border_color="#0D72DD" />-->
 
 <!--    &lt;!&ndash; Hộp chứa thông tin người dùng &ndash;&gt;-->
+<!--&lt;!&ndash;    <androidx.cardview.widget.CardView&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;        android:layout_marginBottom="5dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:cardCornerRadius="24dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:cardElevation="8dp"&ndash;&gt;-->
+<!--&lt;!&ndash;        app:cardBackgroundColor="#FFFFFF" >&ndash;&gt;-->
+
+
+<!--&lt;!&ndash;            <LinearLayout&ndash;&gt;-->
+<!--&lt;!&ndash;                android:orientation="vertical"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                android:padding="20dp">&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/txtTenNguoiDung"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:text="Tên: "&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textSize="16sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textColor="#2E2E2E"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:fontFamily="sans-serif" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/txtEmailNguoiDung"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:text="Email: "&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textSize="16sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textColor="#2E2E2E"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:fontFamily="sans-serif" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/txtGioiTinhNguoiDung"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:text="Giới tính: "&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textSize="16sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textColor="#2E2E2E"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:fontFamily="sans-serif" />&ndash;&gt;-->
+
+<!--&lt;!&ndash;                <TextView&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:id="@+id/txtSdtNguoiDung"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_width="match_parent"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:layout_height="wrap_content"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:text="SĐT: "&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textSize="16sp"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:textColor="#2E2E2E"&ndash;&gt;-->
+<!--&lt;!&ndash;                    android:fontFamily="sans-serif" />&ndash;&gt;-->
+<!--&lt;!&ndash;            </LinearLayout>&ndash;&gt;-->
+<!--&lt;!&ndash;        </androidx.cardview.widget.CardView>&ndash;&gt;-->
 <!--    <androidx.cardview.widget.CardView-->
 <!--        android:layout_width="match_parent"-->
 <!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginBottom="20dp"-->
-<!--        app:cardCornerRadius="24dp"-->
-<!--        app:cardElevation="8dp"-->
-<!--        app:cardBackgroundColor="#FFFFFF">-->
+<!--        android:layout_margin="10dp"-->
+<!--        app:cardCornerRadius="28dp"-->
+<!--        app:cardElevation="12dp"-->
+<!--        app:cardBackgroundColor="@android:color/white">-->
 
-<!--&lt;!&ndash;        <TextView&ndash;&gt;-->
-<!--&lt;!&ndash;            android:id="@+id/txtUserInfo"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_width="match_parent"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:layout_height="wrap_content"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:padding="20dp"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:text="Thông tin người dùng"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:textSize="16sp"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:textColor="#2E2E2E"&ndash;&gt;-->
-<!--&lt;!&ndash;            android:fontFamily="sans-serif" />&ndash;&gt;-->
-<!--        <androidx.cardview.widget.CardView-->
+<!--        <LinearLayout-->
 <!--            android:layout_width="match_parent"-->
 <!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="20dp"-->
-<!--            app:cardCornerRadius="24dp"-->
-<!--            app:cardElevation="8dp"-->
-<!--            app:cardBackgroundColor="#FFFFFF">-->
+<!--            android:orientation="vertical"-->
+<!--            android:padding="24dp"-->
+<!--            android:gravity="center_vertical">-->
 
+<!--            &lt;!&ndash; Tên &ndash;&gt;-->
 <!--            <LinearLayout-->
-<!--                android:orientation="vertical"-->
 <!--                android:layout_width="match_parent"-->
 <!--                android:layout_height="wrap_content"-->
-<!--                android:padding="20dp">-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:layout_marginBottom="8dp">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@android:drawable/ic_menu_myplaces"-->
+
+<!--                    android:layout_marginEnd="8dp" />-->
 
 <!--                <TextView-->
 <!--                    android:id="@+id/txtTenNguoiDung"-->
-<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Tên: "-->
-<!--                    android:textSize="16sp"-->
-<!--                    android:textColor="#2E2E2E"-->
-<!--                    android:fontFamily="sans-serif" />-->
+<!--                    android:text="Tên: Nguyễn Văn A"-->
+<!--                    android:textSize="18sp"-->
+<!--                    android:textColor="#333333"-->
+<!--                    android:textStyle="bold" />-->
+<!--            </LinearLayout>-->
+
+<!--            &lt;!&ndash; Email &ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:layout_marginBottom="8dp">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@android:drawable/ic_dialog_email"-->
+
+<!--                    android:layout_marginEnd="8dp" />-->
 
 <!--                <TextView-->
 <!--                    android:id="@+id/txtEmailNguoiDung"-->
-<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Email: "-->
+<!--                    android:text="Email: a@gmail.com"-->
 <!--                    android:textSize="16sp"-->
-<!--                    android:textColor="#2E2E2E"-->
-<!--                    android:fontFamily="sans-serif" />-->
+<!--                    android:textColor="#555555" />-->
+<!--            </LinearLayout>-->
+
+<!--            &lt;!&ndash; Giới tính &ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_vertical"-->
+<!--                android:layout_marginBottom="8dp">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@android:drawable/ic_menu_info_details"-->
+
+<!--                    android:layout_marginEnd="8dp" />-->
 
 <!--                <TextView-->
 <!--                    android:id="@+id/txtGioiTinhNguoiDung"-->
-<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="Giới tính: "-->
+<!--                    android:text="Giới tính: Nam"-->
 <!--                    android:textSize="16sp"-->
-<!--                    android:textColor="#2E2E2E"-->
-<!--                    android:fontFamily="sans-serif" />-->
+<!--                    android:textColor="#555555" />-->
+<!--            </LinearLayout>-->
+
+<!--            &lt;!&ndash; SĐT &ndash;&gt;-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal"-->
+<!--                android:gravity="center_vertical">-->
+
+<!--                <ImageView-->
+<!--                    android:layout_width="24dp"-->
+<!--                    android:layout_height="24dp"-->
+<!--                    android:src="@android:drawable/ic_menu_call"-->
+
+<!--                    android:layout_marginEnd="8dp" />-->
 
 <!--                <TextView-->
 <!--                    android:id="@+id/txtSdtNguoiDung"-->
-<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_width="wrap_content"-->
 <!--                    android:layout_height="wrap_content"-->
-<!--                    android:text="SĐT: "-->
+<!--                    android:text="SĐT: 0123456789"-->
 <!--                    android:textSize="16sp"-->
-<!--                    android:textColor="#2E2E2E"-->
-<!--                    android:fontFamily="sans-serif" />-->
+<!--                    android:textColor="#555555" />-->
 <!--            </LinearLayout>-->
-<!--        </androidx.cardview.widget.CardView>-->
-
+<!--        </LinearLayout>-->
 <!--    </androidx.cardview.widget.CardView>-->
-<!--    <Button-->
+
+<!--&lt;!&ndash;    </androidx.cardview.widget.CardView>&ndash;&gt;-->
+<!--    <TextView-->
 <!--        android:id="@+id/btnEditInfo"-->
-<!--        android:layout_width="match_parent"-->
+<!--        android:layout_width="wrap_content"-->
 <!--        android:layout_height="wrap_content"-->
 <!--        android:text="Chỉnh sửa"-->
-<!--        android:textColor="#FFFFFF"-->
+<!--        android:textColor="#032BF4"-->
 <!--        android:textAllCaps="false"-->
 <!--        android:paddingVertical="14dp"-->
 <!--        android:textSize="16sp"-->
-<!--        android:layout_marginTop="5dp"-->
+<!--        android:layout_marginLeft="130dp"-->
 <!--        android:elevation="4dp"-->
-<!--        android:background="@drawable/rounded_button2"-->
+
 <!--        android:fontFamily="sans-serif-medium" />-->
 <!--    &lt;!&ndash; Nút đăng nhập / đăng xuất &ndash;&gt;-->
 <!--    <Button-->
@@ -219,9 +381,10 @@
 <!--        android:textAllCaps="false"-->
 <!--        android:paddingVertical="14dp"-->
 <!--        android:textSize="16sp"-->
-<!--        android:layout_marginTop="15dp"-->
+<!--        android:layout_marginTop="10dp"-->
 <!--        android:elevation="4dp"-->
 <!--        android:background="@drawable/rounded_button"-->
 <!--        android:fontFamily="sans-serif-medium" />-->
 
 <!--</LinearLayout>-->
+
