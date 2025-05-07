@@ -17,8 +17,10 @@ import android.widget.Spinner;
 import com.example.myapplication.DangKyDialog;
 import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
+import com.example.myapplication.model.NguoiHoc;
 //import com.example.myapplication.dialogs.DangKyDialog;
 import java.util.ArrayList;
+
 
 public class ThongKeFragment extends Fragment implements DangKyDialog.OnDangKySuccessListener {
     Spinner spinner;
@@ -28,7 +30,14 @@ public class ThongKeFragment extends Fragment implements DangKyDialog.OnDangKySu
     ArrayAdapter<String> adapterKH, adapterNH;
     ArrayList<Integer> idKhoaHoc;
 
+    private String emailNguoiDungHienTai; // Biến lưu email của người đang dùng
+    ArrayList<NguoiHoc> danhSachNguoiHoc = new ArrayList<>();
+
     public ThongKeFragment() {}
+    public void setEmailNguoiDungHienTai(String email) {
+        this.emailNguoiDungHienTai = email;
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -162,21 +171,59 @@ private void loadKhoaHoc() {
 
 
 
-    private void loadNguoiHocTheoKH(int khoaHocId) {
-        dsNguoiHoc.clear();
-        SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery("SELECT tenNH FROM DangKy dk INNER JOIN NguoiHoc nh ON dk.nguoiHocId = nh.id WHERE dk.khoaHocId = ?", new String[]{String.valueOf(khoaHocId)});
-        while (cursor.moveToNext()) {
-            dsNguoiHoc.add(cursor.getString(0));
-        }
-        cursor.close();
-        adapterNH.notifyDataSetChanged();  // Đảm bảo Adapter được thông báo thay đổi
+//    private void loadNguoiHocTheoKH(int khoaHocId) {
+//        dsNguoiHoc.clear();
+//        SQLiteDatabase db = dbHelper.getReadableDatabase();
+//        Cursor cursor = db.rawQuery("SELECT tenNH FROM DangKy dk INNER JOIN NguoiHoc nh ON dk.nguoiHocId = nh.id WHERE dk.khoaHocId = ?", new String[]{String.valueOf(khoaHocId)});
+//        while (cursor.moveToNext()) {
+//            dsNguoiHoc.add(cursor.getString(0));
+//        }
+//        cursor.close();
+//        adapterNH.notifyDataSetChanged();  // Đảm bảo Adapter được thông báo thay đổi
+//
+//        listView.setOnItemClickListener((parent, view, position, id) -> {
+//            String tenNguoiHoc = dsNguoiHoc.get(position);
+//            showConfirmDeleteDialog(tenNguoiHoc);
+//        });
+//    }
+private void loadNguoiHocTheoKH(int khoaHocId) {
+    dsNguoiHoc.clear();
+    danhSachNguoiHoc.clear();
+    SQLiteDatabase db = dbHelper.getReadableDatabase();
 
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            String tenNguoiHoc = dsNguoiHoc.get(position);
-            showConfirmDeleteDialog(tenNguoiHoc);
-        });
+    Cursor cursor = db.rawQuery(
+            "SELECT nh.id, nh.tenNH, nh.email, nh.gioiTinh, nh.soDienThoai " +
+                    "FROM DangKy dk INNER JOIN NguoiHoc nh ON dk.nguoiHocId = nh.id WHERE dk.khoaHocId = ?",
+            new String[]{String.valueOf(khoaHocId)}
+    );
+
+    while (cursor.moveToNext()) {
+        NguoiHoc nh = new NguoiHoc(
+                cursor.getInt(0),
+                cursor.getString(1),
+                cursor.getString(2),
+                cursor.getString(3),
+                cursor.getString(4)
+        );
+        danhSachNguoiHoc.add(nh);
+        dsNguoiHoc.add(nh.getTenNH());
     }
+    cursor.close();
+    adapterNH.notifyDataSetChanged();
+
+    listView.setOnItemClickListener((parent, view, position, id) -> {
+        NguoiHoc selectedNH = danhSachNguoiHoc.get(position);
+        if (selectedNH.getEmail().equals(emailNguoiDungHienTai)) {
+            showConfirmDeleteDialog(selectedNH.getTenNH());
+        } else {
+            new androidx.appcompat.app.AlertDialog.Builder(requireContext())
+                    .setTitle("Không thể xóa")
+                    .setMessage("Bạn chỉ có thể xóa tài khoản của chính mình.")
+                    .setPositiveButton("OK", null)
+                    .show();
+        }
+    });
+}
 
 
 }

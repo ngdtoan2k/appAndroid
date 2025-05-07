@@ -4,6 +4,7 @@ package com.example.myapplication;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ public class DangKyDialog extends Dialog {
     Spinner spnKhoaHoc, spnNguoiHoc;
     Button btnDangKy;
     DatabaseHelper dbHelper;
+    ArrayList<String> dsEmailNguoiHoc = new ArrayList<>();
 
     ArrayList<String> dsKhoaHoc = new ArrayList<>();
     ArrayList<String> dsNguoiHoc = new ArrayList<>();
@@ -30,6 +32,7 @@ public class DangKyDialog extends Dialog {
     public DangKyDialog(Context context) {
         super(context);
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +48,63 @@ public class DangKyDialog extends Dialog {
 
         loadData();
 
+        // Lấy thông tin người học hiện tại từ SharedPreferences
+        SharedPreferences pref = getContext().getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+        String email = pref.getString("email", "");
 
+
+
+// Lọc người học hiện tại theo email
+
+        if (!email.isEmpty()) {
+            for (int i = 0; i < dsEmailNguoiHoc.size(); i++) {
+                if (dsEmailNguoiHoc.get(i).equals(email)) {
+                    int id = idNguoiHoc.get(i);
+                    String name = dsNguoiHoc.get(i);
+                    idNguoiHoc.clear();
+                    dsNguoiHoc.clear();
+                    idNguoiHoc.add(id);
+                    dsNguoiHoc.add(name);
+                    break;
+                }
+            }
+        }
+
+
+// Nếu chỉ có một người học, tự động chọn người đó trong Spinner
+        if (idNguoiHoc.size() == 1) {
+            spnNguoiHoc.setSelection(0);
+            spnNguoiHoc.setEnabled(false); // Disable spinner, không cho thay đổi người học
+        }
+
+//        btnDangKy.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                int khId = idKhoaHoc.get(spnKhoaHoc.getSelectedItemPosition());
+//                int nhId = idNguoiHoc.get(spnNguoiHoc.getSelectedItemPosition());
+//
+//                SQLiteDatabase db = dbHelper.getWritableDatabase();
+//                Cursor check = db.rawQuery("SELECT * FROM DangKy WHERE khoaHocId=? AND nguoiHocId=?",
+//                        new String[]{String.valueOf(khId), String.valueOf(nhId)});
+//                if (check.moveToFirst()) {
+//                    Toast.makeText(getContext(), "Người học đã đăng ký khóa này", Toast.LENGTH_SHORT).show();
+//                } else {
+//                    db.execSQL("INSERT INTO DangKy(khoaHocId, nguoiHocId, ngayDangKy) VALUES (?, ?, date('now'))",
+//                            new Object[]{khId, nhId});
+//                    Toast.makeText(getContext(), "Đăng ký thành công", Toast.LENGTH_SHORT).show();
+//                    dismiss();
+//                    if (listener != null) {
+//                        listener.onDangKySuccess();  // Gọi listener để cập nhật lại UI
+//                    }
+//                }
+//                check.close();
+//            }
+//        });
         btnDangKy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int khId = idKhoaHoc.get(spnKhoaHoc.getSelectedItemPosition());
-                int nhId = idNguoiHoc.get(spnNguoiHoc.getSelectedItemPosition());
+                int nhId = idNguoiHoc.get(spnNguoiHoc.getSelectedItemPosition()); // <-- Đảm bảo sử dụng idNguoiHoc chính xác
 
                 SQLiteDatabase db = dbHelper.getWritableDatabase();
                 Cursor check = db.rawQuery("SELECT * FROM DangKy WHERE khoaHocId=? AND nguoiHocId=?",
@@ -87,17 +141,27 @@ public class DangKyDialog extends Dialog {
         }
         c1.close();
 
-        Cursor c2 = db.rawQuery("SELECT id, tenNH FROM NguoiHoc", null);
+        // Lấy tất cả người học
+//        Cursor c2 = db.rawQuery("SELECT id, tenNH, email FROM NguoiHoc", null);
+//        while (c2.moveToNext()) {
+//            idNguoiHoc.add(c2.getInt(0));
+//            dsNguoiHoc.add(c2.getString(1));
+//        }
+        Cursor c2 = db.rawQuery("SELECT id, tenNH, email FROM NguoiHoc", null);
         while (c2.moveToNext()) {
             idNguoiHoc.add(c2.getInt(0));
             dsNguoiHoc.add(c2.getString(1));
+            dsEmailNguoiHoc.add(c2.getString(2)); // thêm dòng này
         }
         c2.close();
 
+
+        // Set adapter cho Spinner
         spnKhoaHoc.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, dsKhoaHoc));
         spnNguoiHoc.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, dsNguoiHoc));
     }
-//    validatedulieu
+
+    //    validatedulieu
     public interface OnDangKySuccessListener {
         void onDangKySuccess();
     }

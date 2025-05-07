@@ -24,7 +24,12 @@ public class ThongKeTabFragment extends Fragment {
     private ViewPager2 viewPager;
     private ThongKePagerAdapter adapter;
 
+    private String emailNguoiDungHienTai;
+
     public ThongKeTabFragment() {}
+    public void setEmailNguoiDungHienTai(String email) {
+        this.emailNguoiDungHienTai = email;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,7 +78,11 @@ public class ThongKeTabFragment extends Fragment {
 
         public ThongKePagerAdapter(@NonNull FragmentActivity fragmentActivity) {
             super(fragmentActivity);
-            fragments.add(new ThongKeFragment());
+//            fragments.add(new ThongKeFragment());
+            ThongKeFragment frag = new ThongKeFragment();
+            frag.setEmailNguoiDungHienTai(emailNguoiDungHienTai);
+            fragments.add(frag);
+
             fragments.add(new GiangVienFragment());
         }
 

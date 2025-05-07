@@ -49,7 +49,14 @@ public class MainActivity2 extends AppCompatActivity {
                     selectedFragment = new KhoaHocFragment();
                 } else if (item.getItemId() == R.id.menu_thongke) {
 //                    selectedFragment = new ThongKeFragment();
-                    selectedFragment = new ThongKeTabFragment(); // <-- sửa tại đây
+//                    selectedFragment = new ThongKeTabFragment(); // <-- sửa tại đây
+                    SharedPreferences pref = getSharedPreferences("MyApp", MODE_PRIVATE);
+                    String emailDangNhap = pref.getString("email", "");
+
+                    ThongKeTabFragment thongKeTabFragment = new ThongKeTabFragment();
+                    thongKeTabFragment.setEmailNguoiDungHienTai(emailDangNhap);  // <-- THÊM DÒNG NÀY
+
+                    selectedFragment = thongKeTabFragment;
                 } else if (item.getItemId() == R.id.menu_user) {  // Mới thêm mục người dùng
                     selectedFragment = new UserFragment();
                 }
@@ -60,6 +67,100 @@ public class MainActivity2 extends AppCompatActivity {
         });
 
 
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                SharedPreferences pref = getSharedPreferences("MyApp", MODE_PRIVATE);
+//                int nguoiHocId = pref.getInt("nguoiHocId", -1);
+//
+//                if (nguoiHocId == -1) {
+//                    // Nếu người dùng chưa đăng nhập, chuyển tới LoginActivity
+//                    Intent loginIntent = new Intent(MainActivity2.this, LoginActivity.class);
+//                    startActivity(loginIntent); // Mở giao diện đăng nhập
+//                } else {
+//                    // Nếu đã đăng nhập, mở Dialog đăng ký khóa học
+//                    DangKyDialog dialog = new DangKyDialog(MainActivity2.this);
+//
+//                    dialog.setOnDangKySuccessListener(new DangKyDialog.OnDangKySuccessListener() {
+//                        @Override
+//                        public void onDangKySuccess() {
+//                            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//                            if (currentFragment instanceof ThongKeTabFragment) {
+//                                ThongKeTabFragment thongKeTabFragment = (ThongKeTabFragment) currentFragment;
+//                                ViewPager2 viewPager = thongKeTabFragment.getViewPager();
+//                                int currentItem = viewPager.getCurrentItem();
+//                                Fragment tabFragment = thongKeTabFragment.getFragmentAt(currentItem);
+//
+//                                if (tabFragment instanceof ThongKeFragment) {
+//                                    ((ThongKeFragment) tabFragment).loadData(); // Cập nhật lại dữ liệu
+//                                } else if (tabFragment instanceof GiangVienFragment) {
+//                                    ((GiangVienFragment) tabFragment).loadData();
+//                                }
+//                            }
+//                        }
+//                    });
+//
+//                    dialog.show();
+//                }
+
+//                SharedPreferences pref = getSharedPreferences("MyApp", MODE_PRIVATE);
+//                int nguoiHocId = pref.getInt("nguoiHocId", -1);
+//
+//                if (nguoiHocId == -1) {
+//                    // Nếu người dùng chưa đăng nhập, chuyển tới LoginActivity
+//                    Intent loginIntent = new Intent(MainActivity2.this, LoginActivity.class);
+//                    startActivity(loginIntent); // Mở giao diện đăng nhập
+//                } else {
+//                    // Nếu đã đăng nhập, mở Dialog đăng ký khóa học
+////                    new DangKyDialog(MainActivity2.this).show();
+//
+//
+//                    DangKyDialog dialog = new DangKyDialog(MainActivity2.this);
+//
+////                    dialog.setOnDangKySuccessListener(new DangKyDialog.OnDangKySuccessListener() {
+////                        @Override
+////                        public void onDangKySuccess() {
+////                            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+////
+////                            if (currentFragment instanceof ThongKeTabFragment) {
+////                                ThongKeTabFragment thongKeTabFragment = (ThongKeTabFragment) currentFragment;
+////                                ViewPager2 viewPager = thongKeTabFragment.getViewPager();
+////                                int currentItem = viewPager.getCurrentItem();
+////                                Fragment tabFragment = thongKeTabFragment.getFragmentAt(currentItem);
+////
+////                                if (tabFragment instanceof ThongKeFragment) {
+////                                    // Gọi phương thức để load lại dữ liệu trong ThongKeFragment
+////                                    ((ThongKeFragment) tabFragment).loadData(); // Cập nhật lại dữ liệu
+////                                } else if (tabFragment instanceof GiangVienFragment) {
+////                                    ((GiangVienFragment) tabFragment).loadData();
+////                                }
+////                            }
+////                        }
+////                    });
+//                    dialog.setOnDangKySuccessListener(new DangKyDialog.OnDangKySuccessListener() {
+//                        @Override
+//                        public void onDangKySuccess() {
+//                            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//                            if (currentFragment instanceof ThongKeTabFragment) {
+//                                ThongKeTabFragment thongKeTabFragment = (ThongKeTabFragment) currentFragment;
+//                                ViewPager2 viewPager = thongKeTabFragment.getViewPager();
+//                                int currentItem = viewPager.getCurrentItem();
+//                                Fragment tabFragment = thongKeTabFragment.getFragmentAt(currentItem);
+//
+//                                if (tabFragment instanceof ThongKeFragment) {
+//                                    ((ThongKeFragment) tabFragment).loadData(); // Cập nhật lại dữ liệu
+//                                } else if (tabFragment instanceof GiangVienFragment) {
+//                                    ((GiangVienFragment) tabFragment).loadData();
+//                                }
+//                            }
+//                        }
+//                    });
+//
+//                    dialog.show();
+//
+//                }
+//            }
+//        });
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,16 +173,12 @@ public class MainActivity2 extends AppCompatActivity {
                     startActivity(loginIntent); // Mở giao diện đăng nhập
                 } else {
                     // Nếu đã đăng nhập, mở Dialog đăng ký khóa học
-//                    new DangKyDialog(MainActivity2.this).show();
-
-
                     DangKyDialog dialog = new DangKyDialog(MainActivity2.this);
-
                     dialog.setOnDangKySuccessListener(new DangKyDialog.OnDangKySuccessListener() {
                         @Override
                         public void onDangKySuccess() {
+                            // Cập nhật dữ liệu khi đăng ký thành công
                             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-
                             if (currentFragment instanceof ThongKeTabFragment) {
                                 ThongKeTabFragment thongKeTabFragment = (ThongKeTabFragment) currentFragment;
                                 ViewPager2 viewPager = thongKeTabFragment.getViewPager();
@@ -89,7 +186,6 @@ public class MainActivity2 extends AppCompatActivity {
                                 Fragment tabFragment = thongKeTabFragment.getFragmentAt(currentItem);
 
                                 if (tabFragment instanceof ThongKeFragment) {
-                                    // Gọi phương thức để load lại dữ liệu trong ThongKeFragment
                                     ((ThongKeFragment) tabFragment).loadData(); // Cập nhật lại dữ liệu
                                 } else if (tabFragment instanceof GiangVienFragment) {
                                     ((GiangVienFragment) tabFragment).loadData();
@@ -97,9 +193,7 @@ public class MainActivity2 extends AppCompatActivity {
                             }
                         }
                     });
-
                     dialog.show();
-
                 }
             }
         });

@@ -44,7 +44,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "tenNH TEXT, " +
                 "email TEXT UNIQUE, " +
                 "password TEXT, " +
-
                 "gioiTinh TEXT, " +
                 "soDienThoai TEXT)";
         db.execSQL(createNguoiHoc);
