@@ -112,11 +112,12 @@ public class GiangVienAdapter extends RecyclerView.Adapter<GiangVienAdapter.View
 
 
 private void showGiangVienDetailDialog(Context context, GiangVien gv) {
-
-    SharedPreferences sharedPref = context.getSharedPreferences("USER_PREF", Context.MODE_PRIVATE);
+//USER_PREF
+    SharedPreferences sharedPref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE);
     int nguoiHocId = sharedPref.getInt("nguoiHocId", -1);  // Kiểm tra ID người học
     String tenNguoiHoc = sharedPref.getString("tenNguoiHoc", "Người dùng ẩn danh");
 
+    Log.d("TEST_ID", "nguoiHocId truyền vào CommentAdapter: " + nguoiHocId);
 
     AlertDialog.Builder builder = new AlertDialog.Builder(context);
     View view = LayoutInflater.from(context).inflate(R.layout.dialog_giangvien_detail, null);
@@ -144,7 +145,7 @@ private void showGiangVienDetailDialog(Context context, GiangVien gv) {
 
     // Load bình luận ban đầu
     List<CommentGV> danhSachBL = dbHelper.layBinhLuanTheoGiangVien(gv.getId());
-    CommentAdapter commentAdapter = new CommentAdapter(context, danhSachBL);
+    CommentAdapter commentAdapter = new CommentAdapter(context, danhSachBL,nguoiHocId);
     recyclerViewComment.setLayoutManager(new LinearLayoutManager(context));
     recyclerViewComment.setAdapter(commentAdapter);
 

@@ -94,8 +94,8 @@ public class KhoaHocAdapter extends RecyclerView.Adapter<KhoaHocAdapter.KhoaHocV
     }
 
     private void showGiangVienDialog(GiangVien gv) {
-
-        SharedPreferences sharedPref = context.getSharedPreferences("USER_PREF", Context.MODE_PRIVATE);
+//USER_PREF
+        SharedPreferences sharedPref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE);
         int nguoiHocId = sharedPref.getInt("nguoiHocId", -1);
         String tenNguoiHoc = sharedPref.getString("tenNguoiHoc", "Người dùng ẩn danh");
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -144,7 +144,7 @@ public class KhoaHocAdapter extends RecyclerView.Adapter<KhoaHocAdapter.KhoaHocV
 
 // Load bình luận ban đầu
         List<CommentGV> danhSachBL = dbHelper.layBinhLuanTheoGiangVien(gv.getId());
-        CommentAdapter commentAdapter = new CommentAdapter(context, danhSachBL);
+        CommentAdapter commentAdapter = new CommentAdapter(context, danhSachBL,nguoiHocId);
         recyclerViewComment.setLayoutManager(new LinearLayoutManager(context));
         recyclerViewComment.setAdapter(commentAdapter);
 
@@ -172,7 +172,6 @@ public class KhoaHocAdapter extends RecyclerView.Adapter<KhoaHocAdapter.KhoaHocV
         builder.setPositiveButton("Đóng", null);
         builder.show();
     }
-
 
 }
 

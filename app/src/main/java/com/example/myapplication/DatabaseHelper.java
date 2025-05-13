@@ -275,13 +275,18 @@ public void themBinhLuan(int giangVienId, int nguoiHocId, String noiDung, String
     db.close();
 }
 
-    public void xoaBinhLuan(int id) {
-        SQLiteDatabase db = getWritableDatabase();
-        db.delete("CommentGV", "id = ?", new String[]{String.valueOf(id)});  // Sửa đúng tên bảng
+//    public void xoaBinhLuan(int id) {
+//        SQLiteDatabase db = getWritableDatabase();
+//        db.delete("CommentGV", "id = ?", new String[]{String.valueOf(id)});  // Sửa đúng tên bảng
+//        db.close();
+//    }
+
+    public void xoaBinhLuan(int id, int nguoiHocId) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        // Chỉ xoá nếu đúng người viết
+        db.delete("CommentGV", "id = ? AND nguoiHocId = ?", new String[]{String.valueOf(id), String.valueOf(nguoiHocId)});
         db.close();
     }
-
-
 
 
 public List<CommentGV> layBinhLuanTheoGiangVien(int giangVienId) {

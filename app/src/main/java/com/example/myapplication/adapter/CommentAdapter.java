@@ -1,5 +1,6 @@
 package com.example.myapplication.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,11 +23,13 @@ import java.util.List;
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
     private Context context;
     private List<CommentGV> list;
+   private int nguoiHocId;
 
 
-    public CommentAdapter(Context context, List<CommentGV> list) {
+    public CommentAdapter(Context context, List<CommentGV> list,int nguoiHocId) {
         this.context = context;
         this.list = list;
+        this.nguoiHocId = nguoiHocId;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,19 +61,45 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         holder.txtThoigian.setText(cmt.getThoiGian());
 
 
-        holder.btnXoaBinhLuan.setOnClickListener(v -> {
-            DatabaseHelper dbHelper = new DatabaseHelper(context);
-            dbHelper.xoaBinhLuan(cmt.getId());  // Gọi hàm xóa bình luận từ DatabaseHelper
-            if (position >= 0 && position < list.size()) {
-                list.remove(position);
-//                notifyItemRemoved(position);
-                notifyDataSetChanged();
-            } else {
-                Log.e("CommentAdapter", "Invalid position: " + position);
-            }
 
+//        if (cmt.getNguoiHocId() == nguoiHocId) {
+//            holder.btnXoaBinhLuan.setVisibility(View.VISIBLE);
+//            holder.btnXoaBinhLuan.setOnClickListener(v -> {
+//                DatabaseHelper dbHelper = new DatabaseHelper(context);
+//                dbHelper.xoaBinhLuan(cmt.getId(),nguoiHocId);
+//                if (position >= 0 && position < list.size()) {
+//                    list.remove(position);
+//                    notifyDataSetChanged();
+//                } else {
+//                    Log.e("CommentAdapter", "Invalid position: " + position);
+//                }
+//            });
+//        } else {
+//            holder.btnXoaBinhLuan.setVisibility(View.GONE);
+//            holder.btnXoaBinhLuan.setOnClickListener(null); // xoá listener cũ
+//        }
+        if (cmt.getNguoiHocId() == nguoiHocId) {
+            holder.btnXoaBinhLuan.setVisibility(View.VISIBLE);
+            holder.btnXoaBinhLuan.setOnClickListener(v -> {
+                new AlertDialog.Builder(context)
+                        .setTitle("Xác nhận xóa")
+                        .setMessage("Bạn có chắc muốn xóa bình luận này?")
+                        .setPositiveButton("Xóa", (dialog, which) -> {
+                            DatabaseHelper dbHelper = new DatabaseHelper(context);
+                            dbHelper.xoaBinhLuan(cmt.getId(), nguoiHocId); // Gọi đúng 2 tham số
+                            list.remove(position);
+                            notifyItemRemoved(position);
+                            notifyItemRangeChanged(position, list.size());
+                        })
+                        .setNegativeButton("Hủy", null)
+                        .show();
+            });
+        } else {
+            // Nếu không có quyền, ẩn nút và clear click
+            holder.btnXoaBinhLuan.setVisibility(View.GONE);
+            holder.btnXoaBinhLuan.setOnClickListener(null);
+        }
 
-        });
     }
 
     @Override
