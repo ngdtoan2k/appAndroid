@@ -21,7 +21,7 @@ import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "KhoaHocDB.db";
-    public static final int DB_VERSION = 22;
+    public static final int DB_VERSION = 23;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -83,8 +83,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
         db.execSQL("INSERT INTO GiangVien (tenGV, email, chuyenMon, gioiTinh, thamNien, moTa, monGiangDay, anh) VALUES " +
-                "('Trần Thị B', 'c@gmail.com', 'Android', 'Nam', 10, 'Giảng viên Android', 'Android, Kotlin', 123)," +
-                "('Nguyen Thi D', 'd@gmail.com', 'Java Web', 'Nữ', 8, 'Giảng viên Java Web', 'Java, Spring', 124)");
+//                "('Trần Thị B', 'c@gmail.com', 'Android', 'Nam', 10, 'Giảng viên Android', 'Android, Kotlin', 123)," +
+//                "('Nguyen Thi D', 'd@gmail.com', 'Java Web', 'Nữ', 8, 'Giảng viên Java Web', 'Java, Spring', 124)");
+                "('Nguyễn Văn A', 'a@gmail.com', 'Android', 'Nam', 12, 'Giảng viên chuyên về Android', 'Android, Java', 101)," +
+                "('Trần Thị B', 'b@gmail.com', 'Web', 'Nữ', 9, 'Giảng viên phát triển web', 'HTML, CSS, JavaScript', 102)," +
+                "('Lê Minh C', 'c@gmail.com', 'Java', 'Nam', 15, 'Giảng viên Java kỳ cựu', 'Java Core, JavaFX', 103)," +
+                "('Phạm Thị D', 'd@gmail.com', 'Kotlin', 'Nữ', 6, 'Giảng viên Kotlin cho Android', 'Kotlin, Android Jetpack', 104)," +
+                "('Hoàng Văn E', 'e@gmail.com', 'PHP', 'Nam', 7, 'Giảng viên backend PHP', 'PHP, Laravel', 105)," +
+                "('Đỗ Thị F', 'f@gmail.com', 'Python', 'Nữ', 10, 'Giảng viên Machine Learning', 'Python, TensorFlow', 106)," +
+                "('Vũ Văn G', 'g@gmail.com', 'C#', 'Nam', 8, 'Giảng viên lập trình C#', 'C#, .NET', 107)," +
+                "('Ngô Thị H', 'h@gmail.com', 'Mobile', 'Nữ', 5, 'Giảng viên phát triển di động', 'Flutter, Dart', 108)," +
+                "('Bùi Văn I', 'i@gmail.com', 'Database', 'Nam', 11, 'Giảng viên hệ quản trị cơ sở dữ liệu', 'MySQL, SQL Server', 109)," +
+                "('Đặng Thị K', 'k@gmail.com', 'AI', 'Nữ', 13, 'Giảng viên trí tuệ nhân tạo', 'AI, Deep Learning', 110)");
 
         // Dữ liệu mẫu
         db.execSQL("INSERT INTO NguoiHoc (tenNH, email, password, gioiTinh,soDienThoai ) VALUES " +
@@ -92,10 +102,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "('Nguoi hoc B', 'b@gmail.com', '123','Nữ','0912345678')");
 
         db.execSQL("INSERT INTO KhoaHoc (ten, ngayBatDau, ngayKetThuc, kichHoat, giangVien, moTa) VALUES " +
-                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1, 'Nguyen Thi D', 'Khóa học giới thiệu về Android cơ bản')," +
-                "('Java Web', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình Java Web'),"+
-                "('C++', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình C++')");
-
+//                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1, 'Nguyen Thi D', 'Khóa học giới thiệu về Android cơ bản')," +
+//                "('Java Web', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình Java Web'),"+
+//                "('C++', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình C++')");
+                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1, 'Nguyễn Văn A', 'Khóa học giới thiệu về Android cơ bản')," +
+                "('Web Frontend', '2025-06-01', '2025-06-30', 1, 'Trần Thị B', 'Học HTML, CSS, JavaScript cơ bản')," +
+                "('Java nâng cao', '2025-07-01', '2025-07-30', 1, 'Lê Minh C', 'Khóa học Java nâng cao')," +
+                "('Lập trình Kotlin', '2025-08-01', '2025-08-30', 0, 'Phạm Thị D', 'Kotlin trong phát triển Android hiện đại')," +
+                "('PHP Laravel', '2025-09-01', '2025-09-30', 1, 'Hoàng Văn E', 'Khóa học lập trình web với Laravel')," +
+                "('Python ML', '2025-10-01', '2025-10-30', 0, 'Đỗ Thị F', 'Machine Learning với Python và TensorFlow')," +
+                "('Lập trình C#', '2025-11-01', '2025-11-30', 1, 'Vũ Văn G', 'Học C# và lập trình Windows Forms')," +
+                "('Flutter cơ bản', '2025-12-01', '2025-12-30', 0, 'Ngô Thị H', 'Khóa học Flutter từ cơ bản đến nâng cao')," +
+                "('Quản trị CSDL', '2026-01-01', '2026-01-30', 1, 'Bùi Văn I', 'Học quản lý cơ sở dữ liệu với MySQL')," +
+                "('AI và Deep Learning', '2026-02-01', '2026-02-28', 1, 'Đặng Thị K', 'Khóa học chuyên sâu về AI và DL')");
     }
 
     @Override
@@ -274,12 +293,6 @@ public void themBinhLuan(int giangVienId, int nguoiHocId, String noiDung, String
     }
     db.close();
 }
-
-//    public void xoaBinhLuan(int id) {
-//        SQLiteDatabase db = getWritableDatabase();
-//        db.delete("CommentGV", "id = ?", new String[]{String.valueOf(id)});  // Sửa đúng tên bảng
-//        db.close();
-//    }
 
     public void xoaBinhLuan(int id, int nguoiHocId) {
         SQLiteDatabase db = this.getWritableDatabase();

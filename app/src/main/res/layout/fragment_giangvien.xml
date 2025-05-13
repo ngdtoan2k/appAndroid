@@ -16,6 +16,29 @@
         android:background="@drawable/searchview_bg"
         android:padding="5dp"
         />
+    <LinearLayout
+        android:id="@+id/layout_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sắp xếp theo thâm niên"
+            android:textSize="16sp"
+            android:textColor="#fff"
+            android:layout_marginEnd="8dp" />
+
+        <ImageView
+            android:id="@+id/imgSortArrow"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/arrow_drop_down_24"
+        android:contentDescription="Sort Arrow" />
+    </LinearLayout>
 
     <!-- Danh sách giảng viên -->
     <androidx.recyclerview.widget.RecyclerView

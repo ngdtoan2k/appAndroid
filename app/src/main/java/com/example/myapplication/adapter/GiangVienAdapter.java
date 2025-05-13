@@ -26,7 +26,10 @@ import com.example.myapplication.model.CommentGV;
 import com.example.myapplication.model.GiangVien;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+
 
 public class GiangVienAdapter extends RecyclerView.Adapter<GiangVienAdapter.ViewHolder> implements Filterable {
     private List<GiangVien> danhSach;
@@ -36,7 +39,7 @@ public class GiangVienAdapter extends RecyclerView.Adapter<GiangVienAdapter.View
     public GiangVienAdapter(Context context, List<GiangVien> danhSach) {
         this.context = context;
         this.danhSach = danhSach;
-        this.danhSachFiltered = danhSach;
+        this.danhSachFiltered = new ArrayList<>(danhSach);  // Sử dụng một bản sao của danh sách gốc
     }
 
     @NonNull
@@ -53,10 +56,7 @@ public class GiangVienAdapter extends RecyclerView.Adapter<GiangVienAdapter.View
         holder.txtEmail.setText(gv.getEmail());
         holder.txtChuyenMon.setText(gv.getChuyenMon());
 
-
-        holder.itemView.setOnClickListener(v -> {
-            showGiangVienDetailDialog(context, gv);
-        });
+        holder.itemView.setOnClickListener(v -> showGiangVienDetailDialog(context, gv));
     }
 
     @Override
@@ -74,7 +74,7 @@ public class GiangVienAdapter extends RecyclerView.Adapter<GiangVienAdapter.View
         protected FilterResults performFiltering(CharSequence constraint) {
             List<GiangVien> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(danhSach);
+                filteredList.addAll(danhSach);  // Trả về toàn bộ danh sách gốc nếu không có tìm kiếm
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (GiangVien gv : danhSach) {
@@ -110,70 +110,65 @@ public class GiangVienAdapter extends RecyclerView.Adapter<GiangVienAdapter.View
         }
     }
 
+    private void showGiangVienDetailDialog(Context context, GiangVien gv) {
+        // Lấy thông tin người học từ SharedPreferences
+        SharedPreferences sharedPref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+        int nguoiHocId = sharedPref.getInt("nguoiHocId", -1);
+        String tenNguoiHoc = sharedPref.getString("tenNguoiHoc", "Người dùng ẩn danh");
 
-private void showGiangVienDetailDialog(Context context, GiangVien gv) {
-//USER_PREF
-    SharedPreferences sharedPref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE);
-    int nguoiHocId = sharedPref.getInt("nguoiHocId", -1);  // Kiểm tra ID người học
-    String tenNguoiHoc = sharedPref.getString("tenNguoiHoc", "Người dùng ẩn danh");
+        Log.d("TEST_ID", "nguoiHocId: " + nguoiHocId);
 
-    Log.d("TEST_ID", "nguoiHocId truyền vào CommentAdapter: " + nguoiHocId);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        View view = LayoutInflater.from(context).inflate(R.layout.dialog_giangvien_detail, null);
 
-    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-    View view = LayoutInflater.from(context).inflate(R.layout.dialog_giangvien_detail, null);
-
-    ImageView imgAnh = view.findViewById(R.id.imgGiangVien);
-
-    TextView tvTen = view.findViewById(R.id.tvTenGV);
+        ImageView imgAnh = view.findViewById(R.id.imgGiangVien);
+        TextView tvTen = view.findViewById(R.id.tvTenGV);
         TextView tvEmail = view.findViewById(R.id.tvEmail);
         TextView tvGioiTinh = view.findViewById(R.id.tvGioiTinh);
         TextView tvThamNien = view.findViewById(R.id.tvThamNien);
         TextView tvMoTa = view.findViewById(R.id.tvMoTa);
         TextView tvMonDay = view.findViewById(R.id.tvChuyenMon);
 
-    tvTen.setText(gv.getTenGV());
+        tvTen.setText(gv.getTenGV());
         tvEmail.setText("Email: " + gv.getEmail());
         tvGioiTinh.setText("Giới tính: " + gv.getGioiTinh());
         tvThamNien.setText("Thâm niên: " + gv.getThamNien() + " năm");
         tvMoTa.setText("Mô tả: " + gv.getMoTa());
         tvMonDay.setText("Môn giảng dạy: " + gv.getDanhSachMon());
+
         EditText edtBinhLuan = view.findViewById(R.id.edtBinhLuan);
         Button btnGuiBinhLuan = view.findViewById(R.id.btnGuiBinhLuan);
-    RecyclerView recyclerViewComment = view.findViewById(R.id.recyclerViewComment);
+        RecyclerView recyclerViewComment = view.findViewById(R.id.recyclerViewComment);
 
-    DatabaseHelper dbHelper = new DatabaseHelper(context);
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+        List<CommentGV> danhSachBL = dbHelper.layBinhLuanTheoGiangVien(gv.getId());
+        CommentAdapter commentAdapter = new CommentAdapter(context, danhSachBL, nguoiHocId);
+        recyclerViewComment.setLayoutManager(new LinearLayoutManager(context));
+        recyclerViewComment.setAdapter(commentAdapter);
 
-    // Load bình luận ban đầu
-    List<CommentGV> danhSachBL = dbHelper.layBinhLuanTheoGiangVien(gv.getId());
-    CommentAdapter commentAdapter = new CommentAdapter(context, danhSachBL,nguoiHocId);
-    recyclerViewComment.setLayoutManager(new LinearLayoutManager(context));
-    recyclerViewComment.setAdapter(commentAdapter);
+        btnGuiBinhLuan.setOnClickListener(v -> {
+            String noiDung = edtBinhLuan.getText().toString().trim();
+            if (!noiDung.isEmpty()) {
+                dbHelper.themBinhLuan(gv.getId(), nguoiHocId, noiDung, tenNguoiHoc);
+                danhSachBL.clear();
+                danhSachBL.addAll(dbHelper.layBinhLuanTheoGiangVien(gv.getId()));
+                commentAdapter.notifyDataSetChanged();
+                edtBinhLuan.setText("");
+            } else {
+                Toast.makeText(context, "Vui lòng nhập nội dung", Toast.LENGTH_SHORT).show();
+            }
+        });
 
-    btnGuiBinhLuan.setOnClickListener(v -> {
-        String noiDung = edtBinhLuan.getText().toString().trim();
-        if (!noiDung.isEmpty()) {
-            SharedPreferences pref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE);
-            String tenNguoiHoc1 = pref.getString("tenNguoiHoc", "Người dùng");
-            Log.d("SharedPreferences", "Tên người dùng: " + tenNguoiHoc1);
-            // Lấy tên người học từ SharedPreferences
-//            dbHelper.themBinhLuan(gv.getId(), nguoiHocId, noiDung, tenNguoiHoc);
-            dbHelper.themBinhLuan(gv.getId(), nguoiHocId, noiDung, tenNguoiHoc1);
-            danhSachBL.clear();
-            danhSachBL.addAll(dbHelper.layBinhLuanTheoGiangVien(gv.getId()));
-            commentAdapter.notifyDataSetChanged();
-            edtBinhLuan.setText("");
-        } else {
-            Toast.makeText(context, "Vui lòng nhập nội dung", Toast.LENGTH_SHORT).show();
-        }
-    });
-
-    builder.setView(view);
-    builder.setPositiveButton("Đóng", null);
-    builder.show();
-}
-
-
+        builder.setView(view);
+        builder.setPositiveButton("Đóng", null);
+        builder.show();
     }
 
-
-
+    public void sortByThamNien(boolean isDescending) {
+        Collections.sort(danhSachFiltered, (gv1, gv2) ->
+                isDescending ? Integer.compare(gv2.getThamNien(), gv1.getThamNien())
+                        : Integer.compare(gv1.getThamNien(), gv2.getThamNien())
+        );
+        notifyDataSetChanged();
+    }
+}
