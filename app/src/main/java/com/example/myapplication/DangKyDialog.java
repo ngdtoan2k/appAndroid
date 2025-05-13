@@ -142,11 +142,7 @@ public class DangKyDialog extends Dialog {
         c1.close();
 
         // Lấy tất cả người học
-//        Cursor c2 = db.rawQuery("SELECT id, tenNH, email FROM NguoiHoc", null);
-//        while (c2.moveToNext()) {
-//            idNguoiHoc.add(c2.getInt(0));
-//            dsNguoiHoc.add(c2.getString(1));
-//        }
+
         Cursor c2 = db.rawQuery("SELECT id, tenNH, email FROM NguoiHoc", null);
         while (c2.moveToNext()) {
             idNguoiHoc.add(c2.getInt(0));

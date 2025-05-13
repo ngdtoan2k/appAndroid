@@ -14,7 +14,8 @@
         android:queryHint="Tìm giảng viên theo tên..."
         android:iconifiedByDefault="false"
         android:background="@drawable/searchview_bg"
-        android:padding="8dp" />
+        android:padding="5dp"
+        />
 
     <!-- Danh sách giảng viên -->
     <androidx.recyclerview.widget.RecyclerView

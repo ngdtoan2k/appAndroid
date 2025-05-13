@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
         android:spinnerMode="dropdown"
         android:background="@drawable/spinner_bg"
-        android:padding="12dp" />
+        android:padding="5dp" />
 
     <!-- Danh sách người học -->
     <ListView
         android:id="@+id/listNguoiHoc"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="10dp"
         android:divider="#CCCCCC"
         android:dividerHeight="1dp"
         android:background="@drawable/anh11"

@@ -9,16 +9,19 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import com.example.myapplication.model.CommentGV;
 import com.example.myapplication.model.GiangVien;
 import com.example.myapplication.model.NguoiHoc;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DB_NAME = "KhoaHocDB.db";
-    public static final int DB_VERSION = 18;
+    public static final int DB_VERSION = 22;
 
     public DatabaseHelper(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -67,6 +70,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "anh INTEGER)";
         db.execSQL(createGiangVien);
 
+        String createCommentGV = "CREATE TABLE CommentGV (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "giangVienId INTEGER, " +
+                "nguoiHocId INTEGER, " +
+                "tenNguoiBinhLuan TEXT, " +
+                "noiDung TEXT, " +
+                "thoiGian TEXT, " +
+                "FOREIGN KEY (giangVienId) REFERENCES GiangVien(id), " +
+                "FOREIGN KEY (nguoiHocId) REFERENCES NguoiHoc(id))";
+        db.execSQL(createCommentGV);
+
 
         db.execSQL("INSERT INTO GiangVien (tenGV, email, chuyenMon, gioiTinh, thamNien, moTa, monGiangDay, anh) VALUES " +
                 "('Trần Thị B', 'c@gmail.com', 'Android', 'Nam', 10, 'Giảng viên Android', 'Android, Kotlin', 123)," +
@@ -74,11 +88,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         // Dữ liệu mẫu
         db.execSQL("INSERT INTO NguoiHoc (tenNH, email, password, gioiTinh,soDienThoai ) VALUES " +
-                "('Nguyen Van A', 'a@gmail.com', '123','Nam','0912345678')," +
-                "('Le Thi B', 'b@gmail.com', '123','Nữ','0912345678')");
+                "('Nguoi hoc A', 'a@gmail.com', '123','Nam','0912345678')," +
+                "('Nguoi hoc B', 'b@gmail.com', '123','Nữ','0912345678')");
 
         db.execSQL("INSERT INTO KhoaHoc (ten, ngayBatDau, ngayKetThuc, kichHoat, giangVien, moTa) VALUES " +
-                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1, 'Nguyễn Văn A', 'Khóa học giới thiệu về Android cơ bản')," +
+                "('Android Cơ bản', '2025-05-01', '2025-05-30', 1, 'Nguyen Thi D', 'Khóa học giới thiệu về Android cơ bản')," +
                 "('Java Web', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình Java Web'),"+
                 "('C++', '2025-06-01', '2025-06-30', 0, 'Trần Thị B', 'Khóa học giới thiệu về lập trình C++')");
 
@@ -90,7 +104,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS KhoaHoc");
         db.execSQL("DROP TABLE IF EXISTS NguoiHoc");
         db.execSQL("DROP TABLE IF EXISTS GiangVien");
-
+        db.execSQL("DROP TABLE IF EXISTS CommentGV");
         onCreate(db);
     }
     public List<GiangVien> getAllGiangVien() {
@@ -227,6 +241,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         return gv;
     }
+
+
     public boolean updateNguoiHoc(NguoiHoc nh) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -239,5 +255,74 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
         return rows > 0;
     }
+
+
+public void themBinhLuan(int giangVienId, int nguoiHocId, String noiDung, String tenNguoiHoc) {
+    SQLiteDatabase db = this.getWritableDatabase();
+    ContentValues values = new ContentValues();
+    values.put("giangVienId", giangVienId);
+    values.put("nguoiHocId", nguoiHocId);
+    values.put("noiDung", noiDung);
+    values.put("tenNguoiBinhLuan", tenNguoiHoc);
+    values.put("thoiGian", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+    long result = db.insert("CommentGV", null, values);
+    if (result == -1) {
+        Log.e("Database", "Lỗi khi thêm bình luận.");
+    } else {
+        Log.d("Database", "Bình luận đã được thêm thành công.");
+    }
+    db.close();
+}
+
+    public void xoaBinhLuan(int id) {
+        SQLiteDatabase db = getWritableDatabase();
+        db.delete("CommentGV", "id = ?", new String[]{String.valueOf(id)});  // Sửa đúng tên bảng
+        db.close();
+    }
+
+
+
+
+public List<CommentGV> layBinhLuanTheoGiangVien(int giangVienId) {
+    List<CommentGV> ds = new ArrayList<>();
+    SQLiteDatabase db = this.getReadableDatabase();
+    Cursor cursor = db.rawQuery("SELECT * FROM CommentGV WHERE giangVienId = ? ORDER BY id DESC", new String[]{String.valueOf(giangVienId)});
+
+    if (cursor.moveToFirst()) {
+        do {
+            // Kiểm tra sự tồn tại của các cột trước khi lấy giá trị
+            int idColumnIndex = cursor.getColumnIndex("id");
+            int nguoiHocIdColumnIndex = cursor.getColumnIndex("nguoiHocId");
+            int tenNguoiBinhLuanColumnIndex = cursor.getColumnIndex("tenNguoiBinhLuan");
+            int noiDungColumnIndex = cursor.getColumnIndex("noiDung");
+            int thoiGianColumnIndex = cursor.getColumnIndex("thoiGian");
+
+            // Kiểm tra nếu cột không tồn tại
+            if (idColumnIndex == -1 || nguoiHocIdColumnIndex == -1 || tenNguoiBinhLuanColumnIndex == -1 || noiDungColumnIndex == -1 || thoiGianColumnIndex == -1) {
+                Log.e("DatabaseError", "Một hoặc nhiều cột không tồn tại trong bảng CommentGV.");
+                return ds;  // Nếu cột không tồn tại, trả về danh sách rỗng
+            }
+
+            // Lấy dữ liệu từ cursor
+            int id = cursor.getInt(idColumnIndex);
+            int nguoiHocId = cursor.getInt(nguoiHocIdColumnIndex);
+            String tenNguoiBinhLuan = cursor.getString(tenNguoiBinhLuanColumnIndex);
+            String noiDung = cursor.getString(noiDungColumnIndex);
+            String thoiGian = cursor.getString(thoiGianColumnIndex);
+
+            // Tạo đối tượng CommentGV và thêm vào danh sách
+            CommentGV comment = new CommentGV(id, giangVienId, nguoiHocId, tenNguoiBinhLuan, noiDung, thoiGian);
+            ds.add(comment);
+        } while (cursor.moveToNext());
+    }
+    cursor.close();
+    db.close();
+    return ds;
+}
+
+
+
+
 
 }

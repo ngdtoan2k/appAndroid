@@ -8,6 +8,22 @@
     android:background="@drawable/background_animation"
     >
 
+    <TextView
+        android:id="@+id/textTieude"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Khoá học"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:textColor="#3F51B5"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:fontFamily="sans-serif-medium"
+        />
+
+
     <EditText
         android:id="@+id/edtSearch"
         android:layout_width="0dp"
@@ -15,11 +31,11 @@
         android:hint="Tìm kiếm theo tên khóa học"
         android:drawableLeft="@android:drawable/ic_menu_search"
         android:drawablePadding="8dp"
-        android:padding="12dp"
+        android:padding="5dp"
         android:background="@drawable/rounded_edittext"
     android:textColor="#333"
     android:textSize="16sp"
-    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/textTieude"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintHorizontal_bias="0.5" />
@@ -34,22 +50,24 @@
         android:textSize="14sp"
         app:layout_constraintTop_toBottomOf="@id/edtSearch"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="6dp"
+        android:fontFamily="sans-serif-light"/>
 
     <TextView
         android:id="@+id/tvSelectedDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chọn thời gian bắt đầu"
+        android:text="Thời gian bắt đầu"
         android:textColor="#736666"
         android:textSize="12sp"
-        android:padding="12dp"
+        android:padding="10dp"
         android:gravity="center"
         android:clickable="true"
         android:focusable="true"
         app:layout_constraintTop_toBottomOf="@id/edtSearch"
         app:layout_constraintLeft_toRightOf="@id/chkKichHoat"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="30px"
         />
 
     <!-- RecyclerView hiển thị danh sách khóa học -->

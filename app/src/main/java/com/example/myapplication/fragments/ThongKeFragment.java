@@ -171,21 +171,7 @@ private void loadKhoaHoc() {
 
 
 
-//    private void loadNguoiHocTheoKH(int khoaHocId) {
-//        dsNguoiHoc.clear();
-//        SQLiteDatabase db = dbHelper.getReadableDatabase();
-//        Cursor cursor = db.rawQuery("SELECT tenNH FROM DangKy dk INNER JOIN NguoiHoc nh ON dk.nguoiHocId = nh.id WHERE dk.khoaHocId = ?", new String[]{String.valueOf(khoaHocId)});
-//        while (cursor.moveToNext()) {
-//            dsNguoiHoc.add(cursor.getString(0));
-//        }
-//        cursor.close();
-//        adapterNH.notifyDataSetChanged();  // Đảm bảo Adapter được thông báo thay đổi
-//
-//        listView.setOnItemClickListener((parent, view, position, id) -> {
-//            String tenNguoiHoc = dsNguoiHoc.get(position);
-//            showConfirmDeleteDialog(tenNguoiHoc);
-//        });
-//    }
+
 private void loadNguoiHocTheoKH(int khoaHocId) {
     dsNguoiHoc.clear();
     danhSachNguoiHoc.clear();

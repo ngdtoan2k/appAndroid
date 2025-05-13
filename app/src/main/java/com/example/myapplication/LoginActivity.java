@@ -91,6 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString("soDienThoai", soDienThoai);
                 editor.apply();
 
+
+
                 // Chuyển đến MainActivity2 sau khi đăng nhập thành công
                 Intent i = new Intent(LoginActivity.this, MainActivity2.class);
                 startActivity(i);
@@ -103,16 +105,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-//    private boolean kiemTraDangNhap(String email, String password) {
-//        SQLiteDatabase db = dbHelper.getReadableDatabase();
-//        Cursor cursor = db.rawQuery("SELECT * FROM NguoiHoc WHERE email=? AND password=?", new String[]{email, password});
-//        if (cursor.moveToFirst()) {
-//            currentUserId = cursor.getInt(0); // lưu lại id người dùng
-//            cursor.close();
-//            return true;
-//        }
-//        return false;
-//    }
+
 private boolean kiemTraDangNhap(String email, String password) {
     SQLiteDatabase db = dbHelper.getReadableDatabase();
     Cursor cursor = db.rawQuery("SELECT * FROM NguoiHoc WHERE email=? AND password=?", new String[]{email, password});

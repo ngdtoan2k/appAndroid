@@ -2,20 +2,25 @@ package com.example.myapplication.adapter;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.DatabaseHelper;
 import com.example.myapplication.R;
+import com.example.myapplication.model.CommentGV;
 import com.example.myapplication.model.GiangVien;
 import com.example.myapplication.model.KhoaHoc;
 
@@ -89,6 +94,10 @@ public class KhoaHocAdapter extends RecyclerView.Adapter<KhoaHocAdapter.KhoaHocV
     }
 
     private void showGiangVienDialog(GiangVien gv) {
+
+        SharedPreferences sharedPref = context.getSharedPreferences("USER_PREF", Context.MODE_PRIVATE);
+        int nguoiHocId = sharedPref.getInt("nguoiHocId", -1);
+        String tenNguoiHoc = sharedPref.getString("tenNguoiHoc", "Người dùng ẩn danh");
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         View view = LayoutInflater.from(context).inflate(R.layout.dialog_giangvien_detail, null);
 
@@ -127,10 +136,43 @@ public class KhoaHocAdapter extends RecyclerView.Adapter<KhoaHocAdapter.KhoaHocV
         tvThamNien.setText("Thâm niên: " + gv.getThamNien() + " năm");
         tvMoTa.setText("Mô tả: " + gv.getMoTa());
         tvMonDay.setText("Môn giảng dạy: " + gv.getDanhSachMon());
+        EditText edtBinhLuan = view.findViewById(R.id.edtBinhLuan);
+        Button btnGuiBinhLuan = view.findViewById(R.id.btnGuiBinhLuan);
+        RecyclerView recyclerViewComment = view.findViewById(R.id.recyclerViewComment);
+
+        DatabaseHelper dbHelper = new DatabaseHelper(context);
+
+// Load bình luận ban đầu
+        List<CommentGV> danhSachBL = dbHelper.layBinhLuanTheoGiangVien(gv.getId());
+        CommentAdapter commentAdapter = new CommentAdapter(context, danhSachBL);
+        recyclerViewComment.setLayoutManager(new LinearLayoutManager(context));
+        recyclerViewComment.setAdapter(commentAdapter);
+
+
+        btnGuiBinhLuan.setOnClickListener(v -> {
+            String noiDung = edtBinhLuan.getText().toString().trim();
+            if (!noiDung.isEmpty()) {
+                SharedPreferences pref = context.getSharedPreferences("MyApp", Context.MODE_PRIVATE);
+                String tenNguoiHoc1 = pref.getString("tenNguoiHoc", "Người dùng");
+                Log.d("SharedPreferences", "Tên người dùng: " + tenNguoiHoc1);
+                // Lấy tên người học từ SharedPreferences
+//            dbHelper.themBinhLuan(gv.getId(), nguoiHocId, noiDung, tenNguoiHoc);
+                dbHelper.themBinhLuan(gv.getId(), nguoiHocId, noiDung, tenNguoiHoc1);
+
+                danhSachBL.clear();
+                danhSachBL.addAll(dbHelper.layBinhLuanTheoGiangVien(gv.getId()));
+                commentAdapter.notifyDataSetChanged();
+                edtBinhLuan.setText("");
+            } else {
+                Toast.makeText(context, "Vui lòng nhập nội dung", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         builder.setView(view);
         builder.setPositiveButton("Đóng", null);
         builder.show();
     }
+
+
 }
 
